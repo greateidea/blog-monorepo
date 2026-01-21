@@ -1,0 +1,7 @@
+packages:
+  # 告诉 pnpm，这些目录下的全是 workspace 成员
+  - 'apps/*'
+  - 'packages/*'
+
+# --filter 参数：指定要把包安装到哪里
+# pnpm add ui-lib --filter web-admin

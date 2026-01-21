@@ -1,0 +1,222 @@
+/* @import url(https://cdn.jsdelivr.net/npm/@callmebill/lxgw-wenkai-web@latest/lxgwwenkai-regular/result.css); */
+/* @import "tailwindcss"; */
+
+:root {
+    --gray-000: oklch(12.92% 0.005 var(--base-hue));
+    --gray-50: #f9f9f9;
+    /* --gray-100: #ececec; */
+    --gray-100: oklch(99.24% 0.008 266);
+    --gray-200: oklch(16.75% 0.011 262.04);
+    --gray-400: oklch(24.84% 0.018 var(--base-hue));
+    --gray-900: oklch(56.78% 0.05 262.04);
+    --blue-400: oklch(93.66% 0.027 var(--base-hue));
+    --blue-500: oklch(88.34% 0.052 var(--base-hue));
+    --blue-600: oklch(81.53% 0.078 var(--base-hue));
+    --blue-700: oklch(71.65% 0.122 var(--base-hue));
+    --blue-800: oklch(61.53% 0.1675 var(--base-hue));
+    --blue-900: oklch(55.52% 0.223 var(--base-hue));
+    --black-100: oklch(14.68% 0.01 var(--base-hue));
+    --gray-400: oklch(24.84% 0.018 var(--base-hue));
+    --gray-700: oklch(41.6% 0.035 var(--base-hue));
+    --gray-1000: oklch(66.65% 0.04 var(--base-hue));
+    --gray-1100: oklch(77.16% 0.028 var(--base-hue));
+    --gray-1200: oklch(19.83% 0.01 266);
+    --gray-1001: oklch(50.13% 0.047 266);
+    --red-100: oklch(20.11% 0.07 22);
+    --red-200: oklch(21.27% 0.075 22);
+    --red-300: oklch(23.51% 0.084 22);
+    --red-400: oklch(26.84% 0.099 22);
+    --red-500: oklch(31.03% 0.116 22);
+    --red-600: oklch(37.24% 0.143 22);
+    --red-700: oklch(43.14% 0.167 22);
+    --red-800: oklch(51.82% 0.204 22);
+    --red-900: oklch(60.12% 0.235 22);
+    --red-1000: oklch(64.51% 0.204 22);
+    --red-1100: oklch(73.3% 0.145 22);
+    --red-1200: oklch(85.47% 0.071 22);
+    --green-100: oklch(23.08% 0.04 170);
+    --green-200: oklch(24.95% 0.04 170);
+    --green-300: oklch(28.57% 0.056 170);
+    --green-400: oklch(33.81% 0.067 170);
+    --green-500: oklch(40.49% 0.081 170);
+    --green-600: oklch(50.03% 0.101 170);
+    --green-700: oklch(60.62% 0.123 170);
+    --green-800: oklch(73.6% 0.150 170);
+    --green-900: oklch(86.02% 0.176 170);
+    --green-1000: oklch(89.3% 0.169 170);
+    --green-1100: oklch(91.18% 0.134 170);
+    --green-1200: oklch(94.49% 0.08 170);
+    --orange-100: oklch(20.38% 0.044 60);
+    --orange-200: oklch(21.87% 0.048 60);
+    --orange-300: oklch(24.79% 0.055 60);
+    --orange-400: oklch(28.78% 0.067 60);
+    --orange-500: oklch(34.43% 0.081 60);
+    --orange-600: oklch(42.19% 0.101 60);
+    --orange-700: oklch(50.38% 0.125 60);
+    --orange-800: oklch(60.87% 0.153 60);
+    --orange-900: oklch(70.93% 0.18 60);
+    --orange-1000: oklch(76.91% 0.165 60);
+    --orange-1100: oklch(83.38% 0.121 60);
+    --orange-1200: oklch(90.99% 0.066 60);
+    --pink-100: oklch(91.7% 0.052 352);
+    --pink-200: oklch(90.69% 0.059 352);
+    --pink-300: oklch(89.72% 0.06 352);
+    --pink-400: oklch(86.75% 0.086 352);
+    --pink-500: oklch(82.97% 0.114 352);
+    --pink-600: oklch(77.72% 0.155 352);
+    --pink-700: oklch(73.12% 0.194 352);
+    --pink-800: oklch(68.84% 0.231 352);
+    --pink-900: oklch(65.43% 0.257 352);
+    --pink-1000: oklch(55.6% 0.24 352);
+    --pink-1100: oklch(42.39% 0.195 352);
+    --font-weight-500: 500;
+    --font-weight-400: 400;
+    --font-size-1: 14px;
+    --font-size-12: 12px;
+    --digit-font-family: 'Mono-D', Menlo, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    --primary-font-family: 'Inter', 'Inter-R', 'LXGW WenKai', 'LXGW-R', 'Noto Sans SC', sans-serif;
+    --title-font-family: 'LXGW WenKai', 'Noto Serif SC', 'Songti SC',  'STSong', 'Inter', 'LXGW-R', 'Inter-R', 'Noto Sans SC', sans-serif;
+    --bg-grid: linear-gradient(oklch(from var(--border-color) l c h / 50%) 1px, transparent 1px),    linear-gradient(90deg, oklch(from var(--border-color) l c h / 50%) 1px, transparent 1px);
+}
+
+[data-theme="Dark"] {
+    --view-code-padding: 10px;
+    --text-color: #0d0c22;
+    --art-font-size: 16px;
+    --base-hue: 262.04;
+    --background: var(--black-100);
+    --text-primary: var(--blue-400);
+    --text-secondary: var(--gray-1100);
+    --text-digit: var(--gray-1000);
+    --text-tertiary: var(--gray-1000);
+    --accent: var(--blue-800);
+    --hyperlink: var(--blue-800);
+    --emphasis:oklch(64.6% 0.172 var(--base-hue) / 7%);
+    --border-color: var(--gray-400);
+    --bg-img: var(--bg-grid);
+    --code-snippet-background: var(--gray-200);
+    --border-color: var(--gray-400);
+    --token-comment: var(--gray-1000);
+    --token-keyword: var(--blue-700);
+    --token-operator: var(--orange-1200);
+    --token-function: var(--pink-400);
+    --token-punctuation: var(--blue-600);
+    --token-selector: var(--blue-600);
+    --token-symbol: var(--blue-800);
+    /* --emphasis:oklch(from var (--blue-900) l c h / 5%); */
+
+    /* 全局选中文字的颜色和背景 */
+    ::selection {
+        color: var(--accent);          /* 文字颜色 */
+        background: var(--emphasis);   /* 高亮背景颜色 */
+    }
+
+    text-size-adjust: 100%;
+    /* code, pre {
+        font-family: 'JetBrains Mono', 'Source Code Pro', monospace;
+        background: #f5f5f5;
+        border-radius: 6px;
+        padding: 2px 4px;
+    } */
+}
+
+[data-theme="Light"] {
+    --view-code-padding: 10px;
+    --text-color: #0d0c22;
+    --art-font-size: 16px;
+    --base-hue: 262.04;
+    --background: var(--gray-100);
+    --text-primary: var(--gray-1200);
+    --text-secondary: var(--gray-1200);
+    --text-digit: var(--gray-1001);
+    --accent: var(--blue-900);
+    --emphasis:oklch(64.6% 0.172 var(--base-hue) / 7%);
+    --border-color: var(--gray-400);
+    --bg-img: unset;
+    /* --emphasis:oklch(from var (--blue-900) l c h / 5%); */
+
+    /* 全局选中文字的颜色和背景 */
+    ::selection {
+        color: var(--accent);          /* 文字颜色 */
+        background: var(--emphasis);   /* 高亮背景颜色 */
+    }
+
+    text-size-adjust: 100%;
+}
+
+/* [data-theme="Light"] code, pre {
+    font-family: 'JetBrains Mono', 'Source Code Pro', monospace;
+    background: #f5f5f5;
+    border-radius: 6px;
+    padding: 2px 4px;
+} */
+
+/* [data-theme="Light"] :global(.text_title_font) {
+    font-family: 'LXGW-R', 'Inter-R', 'Noto Sans SC', sans-serif;
+} */
+
+body {
+    background: var(--background);
+    color: var(--text-secondary);
+    background-image: var(--bg-img);
+    background-size: 15.85px 15.85px;
+    background-position: center center;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* @font-face {
+    font-family: 'VT323';
+    src: url('./assets/VT323-Regular.woff2') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+} */
+
+/*  
+    DELETE标记的内容会在预渲染打包过程中被删除
+    这里是为了在生产环境中使用html的字体cdn链接
+    而将这里自定义的字体删除
+    同时自定义字体的名称要与cdn字体的名称保持同名
+*/
+/* DELETE: */
+/* @font-face {
+    font-family: 'LXGW-R';
+    src: url('./assets/LXGWWenKai-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+} */
+/*: DELETE */
+
+/* @font-face {
+    font-family: 'Inter-R';
+    src: url('./assets/Inter-Regular.woff2') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+} */
+
+@font-face {
+    font-family: 'Mono-D';
+    src: url('./assets/DepartureMono-Regular.woff2') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.text_digit_font {
+    font-family: var(--digit-font-family);
+    /* font-family: "VT323", monospace;
+    font-weight: normal;
+    font-style: normal; */
+}
+  
+.text_title_font {
+    font-family: var(--title-font-family);
+}
+
+.text_primary_font {
+    font-family: var(--primary-font-family);
+    /* font-family: "Inter", sans-serif;
+    font-weight: normal;
+    font-style: normal; */
+}
+
+

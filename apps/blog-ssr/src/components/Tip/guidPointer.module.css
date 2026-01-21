@@ -1,0 +1,29 @@
+.guide_pointer {
+    flex-shrink: 0;
+    width: 4px;
+    height: 4px;
+    margin-right: 4px;
+    background-color: var(--blue-500);
+    border-radius: 100px;
+    opacity: 1;
+    transform: none;
+    box-shadow: 0 0px 10px 5px var(--blue-500);
+    animation: pulse-glow 2.3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0% {
+      box-shadow: 0 0 8px 3.5px var(--blue-500);
+      opacity: 0.85;
+    }
+    50% {
+      box-shadow: 0 0 12px 6px var(--blue-500);
+      opacity: 1;
+    }
+    100% {
+      box-shadow: 0 0 8px 3.5px var(--blue-500);
+      opacity: 0.85;
+    }
+}
+
+

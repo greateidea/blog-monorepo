@@ -1,0 +1,63 @@
+.blue700-tag {
+    color: var(--blue-700);
+}
+
+/* listItemContainer */
+.list-item-container .list-index {
+    display: none;
+}
+
+.list-item-container .list-content {
+    padding-left: 30px;
+    position: relative;
+}
+
+.list-item-container .list-content::before {
+    content: '';
+    background-image: url('/public/right-arrow.svg');
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    --accent: oklch(61.53% 0.1675 262.04);
+    stroke: var(--accent);
+}
+
+
+/* noticeContainer */
+.blot-notice-content {
+    font-family: var(--title-font-family);
+    --callout-background: rgba(74, 128, 232, 0.088);
+    /* --callout-background: var(--emphasis); */
+    --text-primary: oklch(93.66% 0.027 262.04);
+
+    position: relative;
+    background: var(--callout-background, var(--emphasis));
+    /* background-color: rgba(8,11,15, 1); */
+    /* background-color: rgba(12,15,20, 0.73); */
+    padding: 16px;
+    border-radius: 8px;
+    color: var(--text-primary);
+    /* border: 1px solid var(--emphasis); */
+}
+
+.blot-notice-content::after {
+    --notice-tip: 'encapsulate';
+    --font-weight-500: 500;
+    --icon-background: oklch(61.53% 0.1675 262.04);
+
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(8%, -50%);
+    content: var(--notice-tip);
+    border-radius: 8px;
+    padding: 0 6px;
+    color: oklch(14.68% 0.01 262.04);
+    font-size: 14px;
+    font-weight: var(--font-weight-500);
+    user-select: none;
+    background: var(--icon-background);
+}

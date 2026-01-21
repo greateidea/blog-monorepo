@@ -1,0 +1,67 @@
+.token.keyword {
+    color: var(--token-keyword);
+}
+
+.token.plain {
+    color: var(--token-comment);
+}
+
+.token.function {
+    color: var(--token-function);
+}
+
+.token.operator {
+    color: var(--token-operator);
+}
+
+.token.maybe-class-name {
+    color: var(--token-function);
+}
+
+.token.punctuation {
+    color: var(--token-punctuation);
+}
+
+.token.punctuation {
+    color: var(--token-punctuation);
+}
+
+.token.parameter {
+    color: var(--token-comment);
+}
+
+.token.tag {
+    color: var(--token-symbol);
+}
+
+.code-line {
+    display: table;
+}
+
+.code-line:hover {
+    background-color: var(--emphasis);
+}
+
+.token.number {
+    color: var(--token-selector);
+}
+
+.line-number {
+    box-sizing: border-box;
+    width: 45px;
+    padding: 0px 12px;
+    user-select: none;
+    opacity: 1;
+    color: var(--text-tertiary);
+}
+
+.code-text {
+    display: table-cell;
+    width: 100%;
+}
+
+
+
+
+
+

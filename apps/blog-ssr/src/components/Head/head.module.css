@@ -1,0 +1,74 @@
+.art_head {
+    margin-top: 100px;
+}
+
+.art_head :global(.typed-cursor){
+    display: none;
+}
+
+.art_head .art_slot {
+    opacity: 0;
+}
+
+.art_head .des_container {
+    display: flex;
+    gap: 12px;
+}
+
+.art_head .like_container {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    transform: translateY(-2.1px);
+}
+
+.art_head .will_like {
+    background-image: url('/public/will-like.svg');
+}
+
+.art_head .really_like {
+    background-image: url('/public/really-like.svg');
+    width: 18px;
+    height: 18px;
+    transform: translateY(-2.6px) scale(1.08);
+}
+
+.art_digit {
+    color: var(--text-digit);
+    font-size: 13px;
+}
+
+.art_head .head_text {
+    /* letter-spacing: 1px; */
+    margin-bottom: 12px;
+    font-weight: 400;
+    line-height: 1.2;
+    text-wrap: balance;
+    color: var(--text-primary);
+    letter-spacing: -1px;
+}
+
+/* 每个字符用 inline-block，方便逐字控制 */
+:global(.flicker-title) {
+  display:inline-block;
+  transform-origin:center;
+  /* 初始暗淡状态 */
+  opacity: 0.15;
+  /* filter: drop-shadow(0 0 0px rgba(255,255,200,0)); */
+  /* text-shadow: 0 0 0px rgba(255,255,200,0); */
+  transition: none; /* GSAP 控制动画，关闭 CSS 过渡 */
+}
+
+/* 最终亮起后的样式类（会被 JS 添加）*/
+:global(.is-lit) {
+  opacity: 1 !important;
+  /* text-shadow: 0 0 10px rgba(255,255,200,0.9),
+                0 0 30px rgba(255,180,50,0.7),
+                0 0 60px rgba(255,120,30,0.45); */
+  /* filter: drop-shadow(0 10px 12px rgba(0,0,0,0.35)); */
+}
+
+/* 空格占位 */
+:global(.flicker-title .ws) { width: .35em; display:inline-block; opacity:1; }
+
+

@@ -1,0 +1,56 @@
+/* 
+要隐藏 <li> 的 marker：li { list-style: none; } 或 ul { list-style: none; padding: 0; }
+可以用 ::marker 控制 marker 的颜色/内容：li::marker { color: red }
+*/
+
+.sidebar {
+    list-style: none;
+    font-family: "Mona Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    /* font-weight: 300; */
+    line-height: 25px;
+
+    /* border-inline-end: 1px solid rgba(5,5,5,0.06); */
+    padding-inline-start: 0px;
+}
+
+.sidebarContainer a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.sidebarContainer {
+    width: 15vw;
+    min-width: 130px;
+    /* width: 23vw; */
+}
+
+.sidebar li {
+    padding: 10px;
+    cursor: pointer;
+    box-sizing: border-box;
+    padding-inline-start: 0px;
+    /* padding-inline-start: 23px; */
+}
+.sidebar .liContent {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sidebar .liContent .closeActive {
+    display: none;
+}
+
+.sidebar .liContent:hover .closeActive {
+    display: inline-flex;
+}
+
+.sidebar .active {
+    background-color: #e3e3e3;
+}
+
+.sidebarContainer .addButton {
+    padding-inline: 20px;
+}
+
+

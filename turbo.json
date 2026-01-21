@@ -1,0 +1,28 @@
+{
+    "$schema": "https://turbo.build/schema.json",
+    "globalEnv": [
+    "NODE_ENV",
+    "VITE_API_URL",
+    "VITE_PROXY_REMOTE_PREFIX",
+    "VITE_PROXY_WREMOTE_PREFIX"
+  ],
+    "pipeline": {
+        "build:prod": {
+            "dependsOn": ["^build:prod"],
+            "outputs": ["dist/**", "client/**", ".next/**", "build/**"]
+        },
+
+        "dev": {
+            "cache": false,
+            "persistent": true
+        },
+
+        "check-types": {
+            "outputs": []
+        },
+
+        "lint": {
+            "outputs": []
+        }
+    }
+}

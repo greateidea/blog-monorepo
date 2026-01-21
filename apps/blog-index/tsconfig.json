@@ -1,0 +1,17 @@
+{
+  "extends": "@blog/tsconfig/base.json",
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "skipLibCheck": true,
+    "types": [
+      "node"
+    ],
+    "allowJs": true,
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    },
+  }
+}

@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'VT323';
+    src: url('./assets/VT323-Regular.woff2') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LXGW-R';
+    src: url('./assets/LXGWWenKai-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+/*: DELETE */
+
+@font-face {
+    font-family: 'Inter-R'; /* 字体名，自定义 */
+    src: url('./assets/Inter-Regular.woff2') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+

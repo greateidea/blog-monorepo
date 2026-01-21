@@ -1,0 +1,32 @@
+{
+    "name": "@blog/monorepo",
+    "version": "0.0.0",
+    "private": true,
+    "description": "blog scalable monorepo",
+    "scripts": {
+        "build:prod": "turbo run build:prod",
+        "dev": "turbo run dev",
+        "dev:index": "turbo run dev --filter @blog/SpringCatTech-blog",
+        "dev:blog": "turbo run dev --filter @blog/blog-ssr",
+        "lint": "turbo run lint",
+        "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+        "prepare": "husky install",
+        "clean": "rm -rf node_modules **/*/node_modules",
+        "changeset": "changeset",
+        "version-packages": "changeset version",
+        "release": "turbo run build --filter=...[HEAD^1] && changeset publish"
+
+    },
+    "devDependencies": {
+        "husky": "^8.0.0",
+        "lint-staged": "^13.0.0",
+        "prettier": "^3.0.0",
+        "turbo": "^1.10.0",
+        "typescript": "~5.9.2"
+    },
+    "engines": {
+        "node": ">=16.0.0",
+        "pnpm": ">=8.0.0"
+    },
+    "packageManager": "pnpm@9.1.0"
+}

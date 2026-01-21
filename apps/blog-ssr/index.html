@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- cdn加载 -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@callmebill/lxgw-wenkai-web@latest/lxgwwenkai-regular/result.css" /> -->
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=VT323&display=swap" rel="stylesheet"> -->
+    <!-- 自有资源加载 -->
+    <link rel="preload" href="/src/assets/DepartureMono-Regular.woff2" as="font" type="font/ttf" crossorigin="anonymous">
+    <!-- <link rel="preload" href="/src/assets/LXGWWenKai-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+    <link rel="preload" href="/src/assets/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="/src/assets/VT323-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous"> -->
+
+    <!-- 单独加载 有字体资源的css文件 -->
+    <!-- <link rel="stylesheet" href="./src/font.dev.css" /> -->
+
+    <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/logoz-32.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React + TS</title>
+    <script type="module">
+      (function(){
+        // if (location.pathname !== '/') {
+          const t=localStorage.theme;
+          document.documentElement.setAttribute('data-theme', t || 'Dark');
+        // }
+      })();
+    </script>
+    <!--app-head-->
+  </head>
+  <body>
+    <div id="root"><!--app-html--></div>
+    <script type="module" async src="/src/entry-client-ssg.tsx"></script>
+  </body>
+</html>

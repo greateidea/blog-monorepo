@@ -1,0 +1,83 @@
+/* @import url('../../themed.module.css'); */
+
+.article {
+    /* display: flex; */
+}
+
+.article p {
+    font-size: 16px;
+}
+
+.article p a {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-color: var(--anchor-border-color, transparent);
+    --hover-color: unset;
+    color: var(--color, var(--hyperlink));
+    text-decoration: none;
+    outline: none;
+    transition: border-color 0.3s, color 0.3s;
+}
+
+.article p a:hover {
+    --anchor-border-color: var(--accent);
+}
+
+.article .view_container {
+    /* flex: 1;
+    padding-inline-start: 12px; */
+    /* text-align: center; */
+}
+
+.article_container {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr minmax(auto, 740px) 1fr;
+    column-gap: 16px;
+
+    background: var(--background);
+    background-image: var(--bg-img);
+    background-position: center center;
+    background-size: 15.85px 15.85px;
+
+    mask-image: linear-gradient(to bottom, black 98.9%, transparent 100%);
+    mask-repeat: no-repeat;
+    mask-size: 100% 100%;
+    padding-bottom: 24px;
+}
+
+.article {
+    grid-column: 2
+}
+
+.view_footer_mask {
+    height: 96px;
+    width: 100%;
+    transform: translateZ(0px);
+    will-change: transform;
+    z-index: 1;
+    isolation: isolate;
+    pointer-events: none;
+    backdrop-filter: blur(4px);
+    mask-image: linear-gradient(rgba(0, 0, 0, 0) 0%, black 100%);
+    transition: background 0.3s ease-in-out;
+    background: oklch(from var(--background) l c h / 90%);
+}
+
+.view_bottom_mask {
+    position: absolute;
+    bottom: 0;
+    mask-image: linear-gradient(to top, transparent 0%, black 40%);
+    mask-repeat: no-repeat;
+    width: 100%;
+    height: 10px;
+    transform: translateY(100%);
+}
+
+.fix_bottom {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+}
+
+
