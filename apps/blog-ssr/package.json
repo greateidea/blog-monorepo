@@ -19,6 +19,12 @@
     "test": "vitest",
     "test:run": "vitest run"
   },
+  "pnpm": {
+    "overrides": {
+      "react-router": "7.9.3",
+      "react-router-dom": "7.9.3"
+    }
+  },
   "dependencies": {
     "@preact/signals": "^2.4.0",
     "@preact/signals-react": "^3.4.0",
@@ -34,7 +40,7 @@
     "quill-delta-to-html": "^0.12.1",
     "react": "19.1.1",
     "react-dom": "19.1.1",
-    "react-router": "^7.9.3",
+    "react-router": "7.9.3",
     "react-router-dom": "7.9.3",
     "sirv": "^3.0.2",
     "typed.js": "^2.1.0"
