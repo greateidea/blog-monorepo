@@ -127,6 +127,10 @@ magic：
 · 打包环境
   pnpm build --filter web-admin
 
+
+· "release": "turbo run build --filter=...[HEAD^1] && changeset publish"
+  (注意：release 命令通常要先跑 build，再 publish。这里用了 Turbo 的过滤器技巧，只 build 变动过的包，这属于高级优化，暂时先理解逻辑即可。)
+
 · 为什么这样做更好？
 · 享受缓存：如果 web-admin 依赖了 ui-lib，Turbo 会智能判断 ui-lib 需不需要重构。
 · 心智负担小：你不需要在不同的文件夹之间切来切去（Context Switching）。
