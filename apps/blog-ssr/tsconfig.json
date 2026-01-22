@@ -7,8 +7,14 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "types": [
+      "vitest/globals", "@testing-library/jest-dom"
+    ],
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  // 当你运行 tsc --build 时，能顺便检查一下 vite.config.ts 有没有类型错误
+  // 但通常我们只需要检查 src 下的业务代码
+  // 唯一的区别是你跑全量类型检查时，可能不会检查配置文件了，但这无伤大雅
+  // "references": [{ "path": "./tsconfig.node.json" }]
 }

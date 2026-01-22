@@ -5,7 +5,7 @@
     "useDefineForClassFields": false,
     "skipLibCheck": true,
     "types": [
-      "node"
+      "node", "vitest/globals", "@testing-library/jest-dom"
     ],
     "allowJs": true,
     "paths": {

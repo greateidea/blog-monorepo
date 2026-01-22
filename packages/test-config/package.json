@@ -1,0 +1,22 @@
+{
+  "name": "@blog/test-config",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "main": "vitest-base.config.ts",
+  "types": "vitest-base.config.ts",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jsdom": "^27.4.0",
+    "vitest": "^4.0.17"
+  },
+  "peerDependencies": {
+    "vitest": "^4.0.17"
+  }
+}

@@ -7,6 +7,11 @@
     "VITE_PROXY_WREMOTE_PREFIX"
   ],
     "pipeline": {
+        "test": {
+            "outputs": [],
+            "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts"]
+        },
+        
         "build:prod": {
             "dependsOn": ["^build:prod"],
             "outputs": ["dist/**", "client/**", ".next/**", "build/**"]

@@ -2,6 +2,9 @@
 · --filter 参数：指定要把包安装到哪里
 pnpm add ui-lib --filter web-admin
 
+<!-- pnpm add vitest -D -w // 根目录包安装命令 -->
+
+
 打开 apps/web-admin/package.json，你会看到：
 {
   "dependencies": {
@@ -219,3 +222,129 @@ magic：
 
 ### Changesets Action
 
+
+### Vitest + RTL + husky
+· 在 packages/test-config 目录下：pnpm add vitest jsdom -D
+    配置文件
+
+· 注意⚠️在 根 目录下创建 vitest.workspace.ts：
+    export default [
+      'apps/*',
+      'packages/*'
+    ];
+    要求根目录下husky拦截执行 "vitest related --run" 的时候，
+    自动匹配 执行的测试文件 对应的应用vitest配置
+  
+
+· 应用各自继承公共配置 @blog-org/test-config + 安装RTL
+  · 使用 workspace 协议安装本地配置包
+      pnpm add @blog/test-config@workspace:\* -D --filter @blog/SpringCatTech-blog
+
+      pnpm add @blog/test-config@workspace:\* -D --filter @blog/blog-ssr
+
+  · 应用各自 安装 React 测试库
+      pnpm add @testing-library/react @testing-library/user-event @testing-library/jest-dom -D --filter @blog/SpringCatTech-blog
+
+      pnpm add @testing-library/react @testing-library/user-event @testing-library/jest-dom -D --filter @blog/blog-ssr
+
+  · 应用各自 安装Vitest
+      在根目录:
+        pnpm add vitest -D --filter @blog/SpringCatTech-blog
+        pnpm add vitest -D --filter @blog/blog-ssr
+
+  · 应用各自 创建 Setup 文件
+      apps/web-admin/src/test/setup.ts：
+        import '@testing-library/jest-dom';
+
+  · 子应用 TypeScript 类型生命
+      子应用 的 tsconfig.json (apps/web-admin/tsconfig.json)：
+      {
+        {
+          "extends": "@blog-org/tsconfig/base.json",
+          "compilerOptions": {
+            "baseUrl": ".",
+            // 【关键修复】显式引入 vitest 的全局类型
+            // 这样 TS 就能识别 describe, it, expect 了
+            "types": ["vitest/globals", "@testing-library/jest-dom"], 
+            "paths": {
+              "@/*": ["src/*"]
+            }
+          },
+          "include": ["src"]
+        }
+      }
+
+  配置：
+    · turbo:
+      "pipeline": {
+        "test": {
+            "outputs": [],
+            "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts"]
+        },
+        ...
+      \}
+    
+    · 根 package.json 配置husky：
+      "lint-staged": {
+          "apps/**/*.{js,jsx,ts,tsx}": [
+              "vitest related --run"
+          ]
+      }
+
+    · 配置 .husky/pre-commit：
+      #!/bin/sh
+      . "$(dirname "$0")/_/husky.sh"
+
+      npx lint-staged
+    
+    · 各应用package.json:
+      "scripts": {
+        "test": "vitest",
+        "test:run": "vitest run"
+    },
+
+
+### 关于：依赖变更合并主分支changeset version时时，未开发的另一个应用App B受到影响
+  · 机器人默认给App B 升一级 patch
+    机器人自动修改 App B 的 package.json 和 CHANGELOG.md。
+      Changelog 内容通常是：Dependencies updated: SharedPackage@1.0.1
+
+  · 自动化测试
+       CI 脚本应该所有测 “受影响的包 (Affected Packages)”
+          # 在 CI 里执行测试时
+          # --filter=...[HEAD^1] 的意思是：
+          # 找出自上次提交以来变动的包，以及“依赖它们的所有上层包”
+            -> pnpm turbo run test --filter=...[HEAD^1]
+
+  · 控制这种“躺枪”（高级配置）
+    · 默认行为是推荐的，但 Changesets 也提供了配置项来控制这种**“连锁升级”**的力度
+      .changeset/config.json：
+        {
+          // 这个字段控制：当依赖更新时，我是否要升级？
+          // 默认是 "patch"，即：只要依赖变了，我就升 patch 版本。
+          "updateInternalDependencies": "patch" 
+        }
+
+      · 可选策略：
+        "patch" (推荐，标准做法)：
+          最安全。只要依赖变，应用就重发。保证线上代码最新。
+        "minor"：
+          只有当依赖发生 minor 或 major 变更时，应用才重发。Patch 变更忽略。
+          风险：如果不重发应用，线上可能无法获得 Bug 修复
+
+  #### 关联受影响应用 Owner
+    如果你修改的 SharedPackage 非常核心，影响了别人的 App B
+    在仓库根目录配置 .github/CODEOWNERS
+      apps/web-admin/  @admin-team-lead
+      apps/h5-app/     @h5-team-lead
+      packages/ui-lib/ @infra-team
+
+    提交 PR 时，虽然你只改了 ui-lib，
+      但如果 CI 机器人（或者你手动）涉及到了 App B 的文件变动，
+      Git 平台会自动把 App B 的负责人拉进来 Review
+
+总后总的来说：
+  pnpm + turbo + changeset 这一套既是一个monorepo的多应用管理架构
+  同时也是协作的基础，协作的核心是 「自动化测试」和「changeset」
+    「自动化测试」可以自动测试所有关联部分，这就需要严格要求编写测试用例
+    「changeset」最终会把变更所有关联的范围在git上体现出来

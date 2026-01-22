@@ -15,7 +15,9 @@
     "prerender": "node prerender.js",
     "build:allSSG": "npm run build:clientSSG && npm run build:serverSSG && npm run prerender",
     "build:prod": "npm run build:clientSSG && npm run build:serverSSG && npm run prerender",
-    "previewSSG": "cross-env NODE_ENV=production node server-ssg"
+    "previewSSG": "cross-env NODE_ENV=production node server-ssg",
+    "test": "vitest",
+    "test:run": "vitest run"
   },
   "dependencies": {
     "@preact/signals": "^2.4.0",
@@ -38,7 +40,11 @@
     "typed.js": "^2.1.0"
   },
   "devDependencies": {
+    "@blog/test-config": "workspace:^",
     "@blog/tsconfig": "workspace:^",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/express": "^5.0.3",
     "@types/node": "^24.5.1",
     "@types/prismjs": "^1.26.5",
@@ -49,6 +55,7 @@
     "autoprefixer": "^10.4.22",
     "cross-env": "^10.0.0",
     "postcss": "^8.5.6",
-    "vite": "^7.1.5"
+    "vite": "^7.1.5",
+    "vitest": "^4.0.17"
   }
 }

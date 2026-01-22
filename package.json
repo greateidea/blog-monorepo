@@ -14,7 +14,16 @@
         "clean": "rm -rf node_modules **/*/node_modules",
         "changeset": "changeset",
         "version-packages": "changeset version",
-        "release": "turbo run build --filter=...[HEAD^1] && changeset publish"
+        "release": "turbo run build:prod --filter=...[HEAD^1] && changeset publish",
+        "test": "turbo run test --filter=...[HEAD^1]"
+    },
+    "lint-staged": {
+        "apps/blog-index/**/*.{js,jsx,ts,tsx}": [
+            "pnpm --filter @blog/SpringCatTech-blog test:run -- related"
+        ],
+        "apps/blog-ssr/**/*.{js,jsx,ts,tsx}": [
+            "pnpm --filter @blog/blog-ssr test:run -- related"
+        ]
     },
     "devDependencies": {
         "@changesets/cli": "^2.29.8",
@@ -22,7 +31,8 @@
         "lint-staged": "^13.0.0",
         "prettier": "^3.0.0",
         "turbo": "^1.10.0",
-        "typescript": "~5.9.2"
+        "typescript": "~5.9.2",
+        "vitest": "^4.0.17"
     },
     "engines": {
         "node": ">=16.0.0",
