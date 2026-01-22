@@ -1,5 +1,16 @@
 # @blog/SpringCatTech-blog
 
+## 0.3.0
+
+### Minor Changes
+
+- a743a1f: y
+
+### Patch Changes
+
+- Updated dependencies [a743a1f]
+  - @blog/ui-lib@1.0.0
+
 ## 0.2.1
 
 ### Patch Changes

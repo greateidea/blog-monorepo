@@ -36,8 +36,6 @@ async function run() {
   // 2. 遍历拷贝
   for (const app of appsToCopy) {
     if (await fs.pathExists(app.source)) {
-      // 【DEBUG】打印出来看看它到底指向哪里？
-      console.log('DEBUG: source target are', app.source, app.target); 
       await fs.copy(app.source, app.target);
       console.log(`✨ [${path.basename(app.target)}] 拷贝成功`);
     } else {

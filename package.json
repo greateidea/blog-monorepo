@@ -15,7 +15,7 @@
         "clean": "rm -rf node_modules **/*/node_modules",
         "changeset": "changeset",
         "version-packages": "changeset version",
-        "release": "turbo run build:prod --filter=...[HEAD^1] && changeset publish",
+        "release": "turbo run build:prod --filter=...[HEAD^1] && node scripts/collect-dist.mjs && changeset publish",
         "test": "turbo run test --filter=...[HEAD^1]"
     },
     "lint-staged": {
