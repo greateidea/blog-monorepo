@@ -1,5 +1,11 @@
 # @blog/test-config
 
+## 0.1.1
+
+### Patch Changes
+
+- dc91b90: 完成所有打包后按顺序copy应用打包产物到根目录dist
+
 ## 0.1.0
 
 ### Minor Changes
