@@ -1,33 +1,52 @@
 {
     "$schema": "https://turbo.build/schema.json",
     "globalEnv": [
-    "NODE_ENV",
-    "VITE_API_URL",
-    "VITE_PROXY_REMOTE_PREFIX",
-    "VITE_PROXY_WREMOTE_PREFIX"
-  ],
+        "NODE_ENV",
+        "VITE_API_URL",
+        "VITE_PROXY_REMOTE_PREFIX",
+        "VITE_PROXY_WREMOTE_PREFIX"
+    ],
     "pipeline": {
         "test": {
             "outputs": [],
-            "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts"]
+            "inputs": [
+                "src/**/*.tsx",
+                "src/**/*.ts",
+                "test/**/*.ts"
+            ]
         },
-        
         "build:prod": {
-            "dependsOn": ["^build:prod"],
-            "outputs": ["dist/**", "client/**", ".next/**", "build/**"]
+            "dependsOn": [
+                "^build:prod"
+            ],
+            "outputs": [
+                "dist/**",
+                "client/**",
+                ".next/**",
+                "build/**"
+            ]
         },
-
         "dev": {
             "cache": false,
             "persistent": true
         },
-
         "check-types": {
             "outputs": []
         },
-
         "lint": {
             "outputs": []
+        },
+        "storybook": {
+            "cache": false,
+            "persistent": true
+        },
+        "build-storybook": {
+            "outputs": [
+                "storybook-static/**"
+            ],
+            "dependsOn": [
+                "^build"
+            ]
         }
     }
 }

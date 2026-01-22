@@ -1,0 +1,14 @@
+{
+    "extends": "@blog/tsconfig/base.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "jsx": "react-jsx",
+        "outDir": "./dist",
+        // 允许生成声明文件 (虽然主要靠 vite-plugin-dts，但 tsc 检查需要)
+        "declaration": true,
+        "declarationMap": true
+    },
+    "include": [
+        "src"
+    ]
+}

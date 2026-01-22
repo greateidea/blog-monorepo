@@ -11,9 +11,11 @@
     "test:run": "vitest run"
   },
   "dependencies": {
+    "@blog/ui-lib": "workspace:^",
     "@tailwindcss/vite": "^4.1.17",
     "@vitejs/plugin-react-swc": "^4.2.2",
     "framer-motion": "^12.23.24",
+    "gsap": "^3.13.0",
     "lucide-react": "^0.554.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
