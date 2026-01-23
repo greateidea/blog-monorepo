@@ -1,5 +1,11 @@
 # @blog/SpringCatTech-blog
 
+## 0.4.1
+
+### Patch Changes
+
+- 3cd65f6: 主页新增sentry 名称更新 博客噪音优化
+
 ## 0.4.0
 
 ### Minor Changes
