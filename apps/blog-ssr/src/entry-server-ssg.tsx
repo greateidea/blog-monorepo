@@ -43,15 +43,15 @@ function tagsFromManifest(manifest: Manifest | null, entryKey = 'src/entry-clien
     return { entryTag, scriptTags, cssTags, assetsTags, lowPriorityScriptTags }
   }
 
-  if (info.file) entryTag = `<script type="module" src="/${info.file}"></script>` 
+  if (info.file) entryTag = `<script type="module" src="/${info.file}"></script>`
   if (Array.isArray(info.imports)) {
     for (const imp of info.imports) {
       const impInfo = manifest[imp]
       if (impInfo?.file) scriptTags += renderPreloadLink(`/${impInfo.file}`)
     }
   }
-  if(Array.isArray(info.dynamicImports)) {
-        for (const imp of info.dynamicImports) {
+  if (Array.isArray(info.dynamicImports)) {
+    for (const imp of info.dynamicImports) {
       const impInfo = manifest[imp]
       if (impInfo?.file) lowPriorityScriptTags += renderPreloadLink(`/${impInfo.file}`, true)
     }
@@ -249,13 +249,13 @@ export async function render(url: string, data: any = null, opts: { manifest?: M
   //   const { found = [], cleaned } = extractLinksAndClean(appHtml);
 
   //   const allTagStr = [entryTag, scriptTags, cssTags, assetsTags].join("")
-    
+
   //   found.forEach(({ tag, href }) => {
   //     if (!allTagStr.includes(href)) {
   //       assetsTags + tag
   //     }
   //   })
-    
+
   //   appHtml = cleaned;
   // } catch (error) {
   //   console.log(error);
@@ -298,7 +298,7 @@ export async function render(url: string, data: any = null, opts: { manifest?: M
 
   return html
 }
-{/* <style>${themeCss}</style> */}
+{/* <style>${themeCss}</style> */ }
 
 // Also export default component for dev SSR loading (optional)
 const ServerApp = ({ url, initialData }: { url?: string, initialData?: any }) => {

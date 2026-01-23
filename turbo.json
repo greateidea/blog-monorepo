@@ -4,7 +4,11 @@
         "NODE_ENV",
         "VITE_API_URL",
         "VITE_PROXY_REMOTE_PREFIX",
-        "VITE_PROXY_WREMOTE_PREFIX"
+        "VITE_PROXY_WREMOTE_PREFIX",
+        "SENTRY_AUTH_TOKEN",
+        "VITE_SENTRY_DSN",
+        "ORG_SLUG",
+        "PROJECT_SLUG"
     ],
     "pipeline": {
         "test": {
@@ -19,6 +23,14 @@
             "dependsOn": [
                 "^build:prod"
             ],
+            "outputs": [
+                "dist/**",
+                "client/**",
+                ".next/**",
+                "build/**"
+            ]
+        },
+        "preview": {
             "outputs": [
                 "dist/**",
                 "client/**",

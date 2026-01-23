@@ -4,4 +4,4 @@ packages:
   - 'packages/*'
 
 # --filter 参数：指定要把包安装到哪里
-# pnpm add ui-lib --filter web-admin
+# pnpm add @blog/ui-lib@workspace:\* --filter @blog/blog-ssr

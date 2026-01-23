@@ -9,25 +9,23 @@
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
-    "preview": "cross-env NODE_ENV=production node server",
+    "previewOld": "cross-env NODE_ENV=production node server",
     "build:clientSSG": "vite build --outDir dist/client --manifest",
     "build:serverSSG": "vite build --ssr src/entry-server-ssg.tsx --outDir dist/server",
     "prerender": "node prerender.js",
     "build:allSSG": "npm run build:clientSSG && npm run build:serverSSG && npm run prerender",
     "build:prod": "npm run build:clientSSG && npm run build:serverSSG && npm run prerender",
-    "previewSSG": "cross-env NODE_ENV=production node server-ssg",
+    "preview": "cross-env NODE_ENV=production node server-ssg",
     "test": "vitest",
-    "test:run": "vitest run"
-  },
-  "pnpm": {
-    "overrides": {
-      "react-router": "7.9.3",
-      "react-router-dom": "7.9.3"
-    }
+    "test:run": "vitest run --passWithNoTests"
   },
   "dependencies": {
+    "@blog/ui-lib": "workspace:^",
     "@preact/signals": "^2.4.0",
     "@preact/signals-react": "^3.4.0",
+    "@sentry/node": "^10.36.0",
+    "@sentry/react": "^10.36.0",
+    "@sentry/vite-plugin": "^4.7.0",
     "@tailwindcss/vite": "^4.1.17",
     "antd": "^5.27.4",
     "axios": "^1.12.2",

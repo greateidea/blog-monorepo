@@ -10,15 +10,17 @@ type AnimatedFeTurbulenceProps = {
     children: React.ReactNode;
     triggerByHover?: boolean;
     delay?: number;
+    scale?: number;
 }
 
-const AnimatedFeTurbulence: React.FC<AnimatedFeTurbulenceProps> = ({ id = 'animated-turbulence', from = 0, to = 0.1, duration = 0.1, children, triggerByHover = true, delay = 0 }) => {
+const AnimatedFeTurbulence: React.FC<AnimatedFeTurbulenceProps> = ({ id = 'animated-turbulence', scale = 20, from = 0, to = 0.1, duration = 0.1, children, triggerByHover = true, delay = 0 }) => {
     const controller = useRef();
     const baseFrequencyY = useRef({
         y: from
     });
     const [baseFrequency, setBaseFrequency] = useState(`0 ${from}`);
     const [activeHover, setActiveHover] = useState(false);
+    const [scaleEffect, setScaleEffect] = useState(0);
 
     useEffect(() => {
         setTimeout(() => {
@@ -32,6 +34,9 @@ const AnimatedFeTurbulence: React.FC<AnimatedFeTurbulenceProps> = ({ id = 'anima
             controller.current.to(baseFrequencyY.current, {
                 duration: duration / 2,
                 y: to,
+                onStart: () => {
+                    setScaleEffect(scale);
+                },
                 onUpdate: () => {
                     setBaseFrequency(`0 ${baseFrequencyY.current.y}`);
                 },
@@ -42,6 +47,9 @@ const AnimatedFeTurbulence: React.FC<AnimatedFeTurbulenceProps> = ({ id = 'anima
                 onUpdate: () => {
                     setBaseFrequency(`0 ${baseFrequencyY.current.y}`);
                 },
+                onComplete: () => {
+                    setScaleEffect(0);
+                }
             });
         }, delay)
 
@@ -56,7 +64,7 @@ const AnimatedFeTurbulence: React.FC<AnimatedFeTurbulenceProps> = ({ id = 'anima
     };
 
     return <div onMouseEnter={handleMouseEnter} onTouchStart={handleMouseEnter}>
-        <Feturbulence id={id} baseFrequency={baseFrequency} children={children} />
+        <Feturbulence id={id} scale={scaleEffect} baseFrequency={baseFrequency} children={children} />
     </div>
 };
 

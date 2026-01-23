@@ -13,7 +13,8 @@ import style from './article.module.css'
 
 // ADD:
 export const sideBarData = [
-    { code: "podman",
+    {
+        code: "podman",
         des: '什么是podman？',
         metaDescription: 'What is podman',
         dateStr: 'MAY 9, 2025',
@@ -21,10 +22,11 @@ export const sideBarData = [
         ogTitle: 'What is podman',
         ogUrl: import.meta.env.DEV ? 'http://localhost:5173/podman' : 'https://blog.hiou.top/podman',
         href: "hiou.top/podman/index.html",
-        containerStyle: {maskImage: 'linear-gradient(to bottom, black 96.9%, transparent 100%)'},
+        containerStyle: { maskImage: 'linear-gradient(to bottom, black 96.9%, transparent 100%)' },
         headerDes: ['The sky was clear.', '&amp; the sun was shining.', 'MAY 9, 2025']
     },
-    { code: "podman-start",
+    {
+        code: "podman-start",
         des: '使用Podman命令创建和启动容器',
         dateStr: 'October 30, 2025',
         ogDescription: 'Start the Podman container with the command',
@@ -35,7 +37,8 @@ export const sideBarData = [
         containerStyle: { maskImage: 'linear-gradient(to bottom, black 98.9%, transparent 100%)' },
         headerDes: ['The weather is getting cooler.', '&amp; The streets are still lively.', 'October 30, 2025']
     },
-    { code: "podman-persistence",
+    {
+        code: "podman-persistence",
         des: 'Podman的服务持久化',
         dateStr: 'November 4, 2025',
         ogDescription: 'Service persistence of podman',
@@ -46,7 +49,8 @@ export const sideBarData = [
         containerStyle: { maskImage: 'linear-gradient(to bottom, black 98.6%, transparent 100%)' },
         headerDes: ['The heater is turned on.', '&amp; A kitten named Little/Old Bread.', 'November 4, 2025']
     },
-    { code: "vite-po",
+    {
+        code: "vite-po",
         des: 'Vite 文档官网优化分析',
         dateStr: 'November 10, 2025',
         ogDescription: 'Optimization analysis of Vite document official website',
@@ -57,7 +61,8 @@ export const sideBarData = [
         containerStyle: { maskImage: 'linear-gradient(to bottom, black 99.1%, transparent 100%)' },
         headerDes: ['Suitable temperature.', '&amp; The food is delicious.', 'November 10, 2025']
     },
-    { code: "dollar-state",
+    {
+        code: "dollar-state",
         des: 'svelte的$state在React中的基础实现',
         dateStr: 'November 14, 2025',
         ogDescription: 'The Basic Implementation of $state of svelte in React',
@@ -68,7 +73,8 @@ export const sideBarData = [
         containerStyle: { maskImage: 'linear-gradient(to bottom, black 99.1%, transparent 100%)' },
         headerDes: ['Warm coffee.', '&amp; The cat flipping its belly.', 'November 14, 2025']
     },
-    { code: "dollar-effect",
+    {
+        code: "dollar-effect",
         des: 'svelte的$effect在React中的基础实现',
         dateStr: 'November 19, 2025',
         ogDescription: 'The Basic Implementation of $effect of svelte in React',
@@ -79,7 +85,8 @@ export const sideBarData = [
         containerStyle: { maskImage: 'linear-gradient(to bottom, black 99.1%, transparent 100%)' },
         headerDes: ['The setting sun shines golden light.', '&amp; The kitten is snoring.', 'November 19, 2025']
     },
-    { code: "dollar-derived",
+    {
+        code: "dollar-derived",
         des: 'svelte的$derived在React中的基础实现',
         dateStr: 'November 20, 2025',
         ogDescription: 'The Basic Implementation of $derived of svelte in React',
@@ -90,7 +97,8 @@ export const sideBarData = [
         containerStyle: { maskImage: 'linear-gradient(to bottom, black 98.8%, transparent 100%)' },
         headerDes: ['People lie on the lawn in the sun.', '&amp; AI is getting smarter.', 'November 19, 2025']
     },
-    { code: "svelte-checkversion",
+    {
+        code: "svelte-checkversion",
         des: 'Svelte的版本检查更新机制',
         dateStr: 'November 25, 2025',
         ogDescription: 'Svelte\'s version checking and updating mechanism',
@@ -101,7 +109,8 @@ export const sideBarData = [
         containerStyle: { maskImage: 'linear-gradient(to bottom, black 98.8%, transparent 100%)' },
         headerDes: ['The winter in the south is not so cold.', '&amp; Learning makes me feel warm.', 'November 25, 2025']
     },
-    { code: "svelte-base-render",
+    {
+        code: "svelte-base-render",
         des: 'Svelte基础渲染流程',
         dateStr: 'November 28, 2025',
         ogDescription: 'Svelte basic rendering process',
@@ -112,7 +121,8 @@ export const sideBarData = [
         containerStyle: { maskImage: 'linear-gradient(to bottom, black 98.8%, transparent 100%)' },
         headerDes: ['The winter in the south is not so cold.', '&amp; Learning makes me feel warm.', 'November 25, 2025']
     },
-    { code: "svelte-code-effect",
+    {
+        code: "svelte-code-effect",
         des: 'SVELTE源码分析：如何创建一个effect',
         dateStr: 'December 9, 2025',
         ogDescription: 'SVELTE source code analysis: how to create an effect',
@@ -123,7 +133,8 @@ export const sideBarData = [
         containerStyle: { maskImage: 'linear-gradient(to bottom, black 98.8%, transparent 100%)' },
         headerDes: ['The winter in the south is not so cold.', '&amp; Learning makes me feel warm.', 'November 25, 2025']
     },
-    { code: "svelte-code-array",
+    {
+        code: "svelte-code-array",
         des: 'SVELTE源码分析：数组渲染及DIFF算法',
         dateStr: 'December 12, 2025',
         ogDescription: 'SVELTE source code analysis: array rendering and DIFF algorithm',
@@ -153,7 +164,7 @@ const Article: React.FC<{ htmlString?: string }> = ({ htmlString }) => {
     // const title = sideBarData.find(v => v.code === code)?.des || ''
     // mask-image: linear-gradient(to bottom, black 98.9%, transparent 100%);
     // const containerStyle = sideBarData.find(v => v.code === code)?.containerStyle || {}
-    
+
     useEffect(() => {
         saveWAccessInfo(code)
     }, [code])
@@ -189,15 +200,15 @@ const Article: React.FC<{ htmlString?: string }> = ({ htmlString }) => {
                 })
             })
         } else {
-           shouldGetRemoteData = true
+            shouldGetRemoteData = true
         }
     }, [html, code])
 
     return <div style={{ isolation: 'isolate' }}>
         <div className={style['article_container']} style={containerStyle || { maskImage: 'linear-gradient(to bottom, black 98.9%, transparent 100%)' }}>
-            <Tip title={title} key={`${title}`}/>
+            <Tip title={title} key={`${title}`} />
             <div className={style.article}>
-                <Head title={title} headerDes={headerDes} code={code}/>
+                <Head title={title} headerDes={headerDes} code={code} />
                 {
                     import.meta.env.DEV ? <>
                         <button style={{ marginTop: 16 }} onClick={(e) => {
@@ -239,9 +250,9 @@ const Article: React.FC<{ htmlString?: string }> = ({ htmlString }) => {
                     })
                 }}/> */}
                 <main className={style.view_container}>
-                    <View html={html || ''}/>
+                    <View html={html || ''} />
                 </main>
-                <div className={`${style.view_footer_mask} ${style.fix_bottom}`}/>
+                <div className={`${style.view_footer_mask} ${style.fix_bottom}`} />
             </div>
         </div>
         <Footer />

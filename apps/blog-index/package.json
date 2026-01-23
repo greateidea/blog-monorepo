@@ -8,7 +8,7 @@
     "build:prod": "vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run --passWithNoTests"
   },
   "dependencies": {
     "@blog/ui-lib": "workspace:^",

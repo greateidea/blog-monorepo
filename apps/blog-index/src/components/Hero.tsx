@@ -216,7 +216,7 @@ export const Hero: React.FC = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         >
-          <AnimatedFeTurbulence id="turbulence" delay={500} duration={0.08}>
+          <AnimatedFeTurbulence id="turbulence" delay={800} duration={0.075}>
             <h1 className="text-7xl md:text-[10rem] font-bold text-zinc-100 tracking-tighter mb-8 leading-[0.85] select-none mix-blend-screen flex flex-col items-center">
               <span className="flex items-baseline justify-center">
                 <span>D</span>

@@ -2,9 +2,10 @@ export interface FeturbulenceProps {
     id: string;
     baseFrequency?: string;
     children: React.ReactNode;
+    scale?: number;
 }
 
-const Feturbulence = ({ id, baseFrequency = "0.015 0.1", children }: FeturbulenceProps) => {
+const Feturbulence = ({ id, baseFrequency = "0.015 0.1", children, scale = 30 }: FeturbulenceProps) => {
     return (
         <>
             <svg style={{ display: 'none' }}>
@@ -24,7 +25,7 @@ const Feturbulence = ({ id, baseFrequency = "0.015 0.1", children }: Feturbulenc
                         <feDisplacementMap
                             in="SourceGraphic"
                             in2="turbulence"
-                            scale="30"
+                            scale={scale}
                             xChannelSelector="R"
                             yChannelSelector="B"
                             x="0%"

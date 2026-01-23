@@ -1,6 +1,6 @@
 ### pnpm
 · --filter 参数：指定要把包安装到哪里
-pnpm add ui-lib --filter web-admin
+ --filter web-admin
 
 <!-- pnpm add vitest -D -w // 根目录包安装命令 -->
 

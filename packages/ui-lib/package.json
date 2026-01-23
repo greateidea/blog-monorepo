@@ -33,11 +33,6 @@
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   },
-  "pnpm": {
-    "overrides": {
-      "@types/node": "^22.0.0"
-    }
-  },
   "devDependencies": {
     "@blog/tsconfig": "workspace:*",
     "@chromatic-com/storybook": "^5.0.0",
