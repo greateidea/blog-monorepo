@@ -25,7 +25,6 @@
     "@preact/signals-react": "^3.4.0",
     "@sentry/node": "^10.36.0",
     "@sentry/react": "^10.36.0",
-    "@sentry/vite-plugin": "^4.7.0",
     "@tailwindcss/vite": "^4.1.17",
     "antd": "^5.27.4",
     "axios": "^1.12.2",
@@ -46,6 +45,7 @@
   "devDependencies": {
     "@blog/test-config": "workspace:^",
     "@blog/tsconfig": "workspace:^",
+    "@sentry/vite-plugin": "^4.7.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",

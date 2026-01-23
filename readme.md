@@ -352,3 +352,66 @@ magic：
   同时也是协作的基础，协作的核心是 「自动化测试」和「changeset」
     「自动化测试」可以自动测试所有关联部分，这就需要严格要求编写测试用例
     「changeset」最终会把变更所有关联的范围在git上体现出来
+
+### sentry
+· 加入依赖：
+  pnpm add @sentry/react -S --filter @blog/blog-ssr
+  pnpm add @sentry/vite-plugin -D --filter @blog/blog-ssr
+
+· SDK 初始化：
+  入口文件：
+  ```js
+      Sentry.init({
+        dsn: import.meta.env.VITE_SENTRY_DSN,
+        integrations: [
+          Sentry.browserTracingIntegration(),
+          Sentry.replayIntegration({
+            maskAllText: false,
+            blockAllMedia: false,
+          }),
+          // send console.log, console.warn, and console.error calls as logs to Sentry
+          Sentry.consoleLoggingIntegration({ levels: ["log", "warn", "error"] }),
+        ],
+        release: import.meta.env.SENTRY_RELEASE,
+        sendDefaultPii: true,
+        // tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
+        tracesSampleRate: 1.0,
+        replaysSessionSampleRate: 0.1,
+        replaysOnErrorSampleRate: 1.0,
+        enableLogs: true,
+        environment: import.meta.env.MODE,
+      });
+  ```
+  
+· vite.config.ts配置：
+  ```js
+  export default defineConfig(({ mode }) => {
+    // 加载环境变量
+    const env = loadEnv(mode, process.cwd(), '');
+    const releaseName = `${pkg.name.replace('@', '').replace('/', '-')}@${pkg.version}`;
+
+    return {
+      plugins: [
+        // ...
+        mode === 'production' && sentryVitePlugin({
+          org: env.ORG_SLUG, // Sentry 组织名
+          project: env.PROJECT_SLUG, // Sentry 项目名
+          telemetry: false,
+          authToken: env.SENTRY_AUTH_TOKEN,
+          // 【关键】Release 版本必须和 main.tsx 里的一致！
+          release: {
+            name: releaseName,
+          }
+        }),
+      ],
+      build: {
+        // ...
+        sourcemap: true
+      },
+      'import.meta.env.SENTRY_RELEASE': JSON.stringify(releaseName),
+    
+· env.production、env.local:
+  VITE_SENTRY_DSN=...
+  SENTRY_AUTH_TOKEN=...
+  ORG_SLUG='cybernetic-nerve'
+  PROJECT_SLUG='cybernetic-nerve-blog-react'

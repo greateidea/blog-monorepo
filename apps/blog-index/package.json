@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@blog/ui-lib": "workspace:^",
+    "@sentry/react": "^10.36.0",
     "@tailwindcss/vite": "^4.1.17",
     "@vitejs/plugin-react-swc": "^4.2.2",
     "framer-motion": "^12.23.24",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@blog/test-config": "workspace:^",
     "@blog/tsconfig": "workspace:^",
+    "@sentry/vite-plugin": "^4.7.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",

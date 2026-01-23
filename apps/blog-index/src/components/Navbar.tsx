@@ -17,7 +17,7 @@ export const Navbar: React.FC = () => {
       {/* Logo */}
       <div>
         <span className="font-bold text-zinc-300 tracking-tighter text-xl hover:text-white transition-colors cursor-default">
-          SpringCatTech<span className="text-zinc-500">.</span>
+          CyberNerveTech<span className="text-zinc-500">.</span>
         </span>
       </div>
 
