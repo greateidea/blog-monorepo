@@ -1,5 +1,11 @@
 # @blog/blog-ssr
 
+## 0.2.3
+
+### Patch Changes
+
+- b409f8e: 博客标题层级修复 噪音效果优化
+
 ## 0.2.2
 
 ### Patch Changes
