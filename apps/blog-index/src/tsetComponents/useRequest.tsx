@@ -1,4 +1,4 @@
-import { useState, useEffect  } from "react"
+import { useState } from "react"
 
 // 这一套可以加山生命周期的东西
 // 进一步可以插件
@@ -28,7 +28,7 @@ function useRequest(fn, options = { manual: true }) {
 
     return result
 }
-
+export default useRequest
 
 //   const {data, loading, error, run} = useRequest(
 //     () => new Promise((resolve) => {

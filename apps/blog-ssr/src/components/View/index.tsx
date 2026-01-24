@@ -20,44 +20,44 @@ const grammars: Dict = {
 type articleLoadEventsType = (() => void)[]
 export let articleLoadEventsOnce: articleLoadEventsType = [];
 
-const preString: string = `function handleBlur() {
-    setTimeout(() => {
-        if (!containerRef.current.contains(document.activeElement)) {
-            closeMenu();
-        }
-    }, 0);
-};
+// const preString: string = `function handleBlur() {
+//     setTimeout(() => {
+//         if (!containerRef.current.contains(document.activeElement)) {
+//             closeMenu();
+//         }
+//     }, 0);
+// };
 
-const colorNode = Fn(([baseColor]) => {
-    const uvCoord = uv();
+// const colorNode = Fn(([baseColor]) => {
+//     const uvCoord = uv();
 
-    const red = uvCoord.x.add(2.3).mul(0.3);
-    const green = uvCoord.y.add(1.7).div(8.2);
-    const blue = add(uvCoord.x, uvCoord.y).mod(10.0);
+//     const red = uvCoord.x.add(2.3).mul(0.3);
+//     const green = uvCoord.y.add(1.7).div(8.2);
+//     const blue = add(uvCoord.x, uvCoord.y).mod(10.0);
 
-    const tint = vec4(red, green, blue, 1.0);
+//     const tint = vec4(red, green, blue, 1.0);
 
-    return mix(baseColor, tint, uvCoord.x);
-});
+//     return mix(baseColor, tint, uvCoord.x);
+// });
 
-const Scene = () => {
-  return (
-    <Canvas
-      shadows
-      gl={async (props) => {
-        const renderer = new THREE.WebGPURenderer({
-          ...props,
-          forceWebGL: true,
-        });
-        await renderer.init();
-        return renderer;
-      }}
-    >
-      {...}
-    </Canvas>
-  );
-};
-`
+// const Scene = () => {
+//   return (
+//     <Canvas
+//       shadows
+//       gl={async (props) => {
+//         const renderer = new THREE.WebGPURenderer({
+//           ...props,
+//           forceWebGL: true,
+//         });
+//         await renderer.init();
+//         return renderer;
+//       }}
+//     >
+//       {...}
+//     </Canvas>
+//   );
+// };
+// `
 
 const hl = (container: HTMLElement) => {
     const codeBlocks = container.querySelectorAll("pre");

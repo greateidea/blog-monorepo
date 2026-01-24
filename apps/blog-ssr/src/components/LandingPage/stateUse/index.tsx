@@ -1,5 +1,5 @@
 // import $state from "../../tools/$stateBrige";
-import $state, { CountHook } from "../../../tools/$stateBridge"
+import { CountHook } from "../../../tools/$stateBridge"
 import Test2 from "./Test2"
 
 export default function App() {

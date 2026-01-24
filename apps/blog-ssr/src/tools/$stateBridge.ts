@@ -9,29 +9,43 @@ type ExternalStoreType<T> = {
 }
 
 function useTodoStore<T extends { proxy?: any }>(externalStore?: ExternalStoreType<T>) {
-    if(!externalStore) return {};
+    let store = externalStore
+    if(!externalStore) {
+        store = {
+            subscribe: () => () => {},
+            getSnapshot: () => ({} as T),
+        }
+    }
     const pc = useSyncExternalStore(
-        externalStore.subscribe,
-        () => externalStore.getSnapshot()
+        store!.subscribe,
+        () => store!.getSnapshot()
     )
-    return pc?.proxy
+    return pc.proxy
 }
 
 const $state = (value: any) => {
-    // 如果实在 $effect 里声明的变量 则直接返回原值
-    if (getCurrentRunner()) {
-        return value
-    }
-
-    let createStoreRef = useRef<ExternalStoreType<{ proxy?: any }> | undefined>(undefined)
+    const createStoreRef = useRef<ExternalStoreType<{ proxy?: any }> | undefined>(undefined)
+    
     if (!createStoreRef.current) {
         createStoreRef.current = createStore(value)
     }
 
-    return useTodoStore(createStoreRef.current)
+    const todoStore = useTodoStore(createStoreRef.current)
+
+    // 如果是在 $effect 里声明的变量 则直接返回原值
+    if (getCurrentRunner()) {
+        return value
+    }
+
+    return todoStore
 }
 
-const $contextState = (value: any) => () => useTodoStore(createStore(value))
+function useTodoStoreWrapper(value: any) {
+    return useTodoStore(createStore(value))
+}
+
+const $contextState = (value: any) => useTodoStoreWrapper(value)
+// const $contextState = (value: any) => () => useTodoStore(createStore(value))
 
 export const CountHook = $contextState({ value: { value: 0 } })
 

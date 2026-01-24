@@ -12,7 +12,7 @@ export type AppContextType = {
 }
 
 type AppContextDispatch = {
-    dispatch?: Function
+    dispatch?: DispatchContainerType
 }
 
 const defaultInitialState = {

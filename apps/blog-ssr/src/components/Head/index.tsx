@@ -113,13 +113,13 @@ const Head: React.FC<{ title: string, headerDes?: string[], code: string }> = ({
   const el = useRef(null);
   const will_like_style = style.will_like
   const really_like_style = style.really_like
-  const [_, startTransition] = useTransition()
+  const [, startTransition] = useTransition()
 
   const [likeStyle, setLikeStyle] = useState({ style: will_like_style, sending: false })
   const likeCode = `${code}:hasLike`
 
   useLayoutEffect(() => {
-    if (!!localStorage.getItem(likeCode)) {
+    if (localStorage.getItem(likeCode)) {
       setLikeStyle({ style: really_like_style, sending: false })
     } else {
       setLikeStyle({ style: will_like_style, sending: false })

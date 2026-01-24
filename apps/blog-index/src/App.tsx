@@ -11,8 +11,6 @@ import './index.css';
 
 // const testVirtualListData = new Array(100).fill(1)
 
-let count = 4;
-
 function App() {
   useEffect(() => {
     document.documentElement.style.scrollBehavior = 'smooth';

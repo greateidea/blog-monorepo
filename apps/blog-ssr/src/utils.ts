@@ -35,28 +35,28 @@ export const updateHeadMeta:UpdateHeadMetaType = ({
 
   // 2. 更新 og:title
   if (ogTitle) {
-    let ogTag = document.querySelector('meta[property="og:title"]');
+    const ogTag = document.querySelector('meta[property="og:title"]');
     ogTag && ogTag.setAttribute('content', ogTitle);
   }
 
   // 3. 更新 canonical link
   if (canonical) {
-    let canonicalLink = document.querySelector('link[rel="canonical"]');
+    const canonicalLink = document.querySelector('link[rel="canonical"]');
     canonicalLink && canonicalLink.setAttribute('href', canonical);
   }
 
   if (ogDescription) {
-    let ogDescriptionLink = document.querySelector('meta[property="og:description"]');
+    const ogDescriptionLink = document.querySelector('meta[property="og:description"]');
     ogDescriptionLink && ogDescriptionLink.setAttribute('content', ogDescription);
   }
 
   if (metaDescription)  {
-    let metaDescriptionLink = document.querySelector('meta[name="description"]');
+    const metaDescriptionLink = document.querySelector('meta[name="description"]');
     metaDescriptionLink && metaDescriptionLink.setAttribute('content', metaDescription);
   }
 
   if (ogUrl)  {
-    let ogUrlLink = document.querySelector('meta[property="url"]');
+    const ogUrlLink = document.querySelector('meta[property="url"]');
     ogUrlLink && ogUrlLink.setAttribute('content', ogUrl);
   }
 
@@ -72,9 +72,9 @@ export const unshiftTagToHead = (tagObjs: Dict[]) => {
 
 export const getSafeHtmlFromDelta = (delta: any) => {
   const converter = new QuillDeltaToHtmlConverter(delta.ops, {});
-  converter.renderCustomWith(function(customOp, contextOp){
+  converter.renderCustomWith(function(customOp){
     if (customOp.insert.type === 'blue700-tag') {
-      let val = customOp.insert.value;
+      const val = customOp.insert.value;
       return `<span class=${val.className}>${val.text}</span>`;
     } else if (typeof customOp.insert.value === 'string') {
       return customOp.insert.value
@@ -90,7 +90,7 @@ export const getSafeHtmlFromDelta = (delta: any) => {
   return getSafeDOM(html)
 }
 
-export const debounce = (fn: Function, delay = 200) => {
+export const debounce = (fn: (args: any[]) => void, delay = 200) => {
   let timer: any = undefined
   return function (...args: any[]) {
     clearTimeout(timer)
@@ -100,7 +100,7 @@ export const debounce = (fn: Function, delay = 200) => {
   }
 }
 
-export const throttle = (fn: Function, delay = 200) => {
+export const throttle = (fn: (args: any[]) => void, delay = 200) => {
   let lastTime = 0
   return function (...args: any[]) {
     const now = Date.now()

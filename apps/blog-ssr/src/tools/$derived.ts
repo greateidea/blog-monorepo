@@ -3,7 +3,7 @@ import { getCurrentRunner, pushRunner, popRunnerExpect, RunnerType } from "./$ef
 
 export type RecomputeRunnerType = {
     (): DerivedFnResultType;
-    __run: Function;
+    __run: () => void;
     _version?: number;
     deps: Set<RecomputeRunnerDepsType>;
 }
@@ -127,7 +127,7 @@ export function derived(fn: DerivedFntType) {
 }
 
 export const $derived = (fn: DerivedFntType) => {
-    let _derived_result_ref = useRef<{value: any}>(null)
+    const _derived_result_ref = useRef<{value: any}>(null)
 
     if (!_derived_result_ref.current) {
         console.log('%c[derived] 开始创建 已进入 _derived_result_ref.current', "color:orange;padding: 6px 0;")

@@ -3,10 +3,10 @@ import { RecomputeRunnerType } from './$derived'
 
 export type RunnerType = {
     (): void;
-    __run: Function;
+    __run: () => void;
     deps: Set<RunnerDepsType>;
-    cleanup: Function | null | never;
-    stop: Function;
+    cleanup: unknown | null | never;
+    stop: () => void;
     running: boolean;
 }
 
@@ -14,10 +14,10 @@ export type RunnerDepsType = {
     _subs: Set<RunnerType | RecomputeRunnerType>
 }
 
-type EffectFnResult = Function | null | never | void
+type EffectFnResult = unknown | null | never | void
 type EffectFn = () => EffectFnResult
 
-let RUNNER_STACK: (RunnerType | RecomputeRunnerType)[] = []
+const RUNNER_STACK: (RunnerType | RecomputeRunnerType)[] = []
 
 export const getCurrentRunner = () => RUNNER_STACK[RUNNER_STACK.length - 1]
 
@@ -101,7 +101,7 @@ function makeRunner(fn: EffectFn): RunnerType {
         if (runner.cleanup) {
             console.log('[runner._cleanupDependencies cleanup] 执行返回清理函数');
 
-            (runner.cleanup as Function)()
+            (runner.cleanup as () => void)()
             runner.cleanup = null
         }
     }
@@ -121,7 +121,7 @@ export function effect(fn: EffectFn) {
 
     // 如果 $effect 是嵌套声明的则弹出所有runner并直接执行注册的 fn 后返回
     if (RUNNER_STACK.length) {
-        var _copy_runner_stack = RUNNER_STACK.splice(0)
+        const _copy_runner_stack = RUNNER_STACK.splice(0)
         fn()
         RUNNER_STACK.push(..._copy_runner_stack)
         return
@@ -139,7 +139,7 @@ export function effect(fn: EffectFn) {
 export const $effect = (fn: EffectFn) => {
     console.log("[$effect]: 进入")
 
-    let __fn_ref = useRef<EffectFn>(null);
+    const __fn_ref = useRef<EffectFn>(null);
     if (!__fn_ref.current) {
         console.log("[$effect]: 通过条件 -> !__fn_ref.current")
 

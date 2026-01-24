@@ -57,14 +57,16 @@ const AnimatedFeTurbulence: React.FC<AnimatedFeTurbulenceProps> = ({ id = 'anima
             controller.current?.kill();
             controller.current = null;
         }
-    }, [from, to, duration, delay]);
+    }, [from, to, duration, delay, scale]);
 
     const handleMouseEnter = () => {
         if (triggerByHover && activeHover) { controller.current?.restart(); }
     };
 
     return <div onMouseEnter={handleMouseEnter} onTouchStart={handleMouseEnter}>
-        <Feturbulence id={id} scale={scaleEffect} baseFrequency={baseFrequency} children={children} />
+        <Feturbulence id={id} scale={scaleEffect} baseFrequency={baseFrequency}>
+            {children}
+        </Feturbulence>
     </div>
 };
 

@@ -8,7 +8,12 @@
         "SENTRY_AUTH_TOKEN",
         "VITE_SENTRY_DSN",
         "ORG_SLUG",
-        "PROJECT_SLUG"
+        "PROJECT_SLUG",
+        "MODE",
+        "DEV",
+        "PROD",
+        "SSR",
+        "SENTRY_RELEASE"
     ],
     "pipeline": {
         "test": {
@@ -21,7 +26,8 @@
         },
         "build:prod": {
             "dependsOn": [
-                "^build:prod"
+                "^build:prod",
+                "lint"
             ],
             "outputs": [
                 "dist/**",

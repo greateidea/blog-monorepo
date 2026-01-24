@@ -49,7 +49,7 @@
 import React, { useState, useMemo, UIEvent } from 'react';
 
 interface VirtualListProps {
-  list: any[];          // 数据源
+  list: unknown[];          // 数据源
   itemHeight: number;   // 固定行高
   containerHeight: number; // 容器高度
 }

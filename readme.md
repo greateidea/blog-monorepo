@@ -409,9 +409,164 @@ magic：
         sourcemap: true
       },
       'import.meta.env.SENTRY_RELEASE': JSON.stringify(releaseName),
-    
+```   
 · env.production、env.local:
   VITE_SENTRY_DSN=...
   SENTRY_AUTH_TOKEN=...
   ORG_SLUG='cybernetic-nerve'
   PROJECT_SLUG='cybernetic-nerve-blog-react'
+
+### 配置ESLINT
+mkdir -p packages/eslint-config
+cd packages/eslint-config
+npm init -y
+
+#### 编辑 packages/eslint-config/package.json
+{
+  "name": "@blog/eslint-config",
+  "version": "0.0.1",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.33.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-turbo": "^1.11.0",
+    "prettier": "^3.2.0"
+  },
+  {
+    "peerDependencies": {
+      // 允许 8.x
+      "eslint": "^8.0.0" 
+    },
+    "devDependencies": {
+      // 强制开发依赖也是 8.x
+      "eslint": "^8.57.0"
+    }
+  }
+}
+
+pnpm install
+
+#### 编写 packages/eslint-config/index.js (核心规则)
+module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
+    node: true,
+  },
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:turbo/recommended", // TurboRepo 专用规则
+    "prettier" // 【关键】必须放在最后，用于关闭所有和 Prettier 冲突的格式化规则
+  ],
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: "latest",
+    sourceType: "module",
+  },
+  plugins: ["react", "@typescript-eslint", "import"],
+  settings: {
+    react: {
+      version: "detect", // 自动检测 React 版本
+    },
+  },
+  rules: {
+    "react/react-in-jsx-scope": "off", // React 17+ 不需要显式 import React
+    "@typescript-eslint/no-explicit-any": "warn", // 允许 any 但警告
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "turbo/no-undeclared-env-vars": "warn" // 环境变量检查
+  },
+  ignorePatterns: ["dist", ".turbo", "node_modules"]
+};
+
+#### 编写 packages/eslint-config/prettier-preset.js (格式化规则)
+module.exports = {
+  printWidth: 100,
+  tabWidth: 2,
+  useTabs: false,
+  semi: true,
+  singleQuote: true, // 强制单引号
+  trailingComma: "es5",
+  bracketSpacing: true,
+  endOfLine: "lf",
+  arrowParens: "always",
+};
+
+#### 根目录统一 Prettier (Global Consistency)
+在根目录创建 .prettierrc.js：
+// 直接引用我们配置包里的预设 (这样整个 Monorepo 就只有一种代码风格了)
+const config = require("./packages/eslint-config/prettier-preset");
+
+module.exports = {
+  ...config,
+};
+
+#### 各应用继承配置 
+// 根目录执行
+pnpm add eslint@^8.57.0 -D --filter @blog/SpringCatTech-blog --filter @blog/blog-ssr --filter @blog/ui-lib
+pnpm add @blog/eslint-config@workspace:* -D --filter @blog/SpringCatTech-blog --filter @blog/blog-ssr --filter @blog/ui-lib
+
+#### 各应用创建.eslintrc.js
+```js
+module.exports = {
+  root: true, // 【关键】停止向上查找，以当前目录为根
+  extends: ["@blog/eslint-config"], // 继承共享配置
+};
+```
+
+### 配置 VS Code (DX Optimization)
+创建/修改根目录的 .vscode/settings.json：
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  // 【核心】告诉 ESLint 这是一个 Monorepo
+  // 如果不加这个，VS Code 可能只会用根目录的配置，导致子项目 lint 失效
+  "eslint.workingDirectories": [
+    { "mode": "auto" }
+  ],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ]
+}
+
+### 集成到 TurboRepo (Automation)
+#### 各应用增加scripts：
+"scripts": {
+  "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+}
+
+#### 修改根目录 turbo.json
+{
+  "pipeline": {
+    "lint": {
+      // lint 不需要依赖构建，也不产出文件
+      "outputs": [] 
+    },
+    "build": {
+      // 可选：构建前必须通过 lint
+      // "dependsOn": ["^build", "lint"] 
+    }
+  }
+}
+
+#### 为什么不直接上 v9？
+· 生态滞后：很多老牌插件（如 eslint-plugin-import, eslint-plugin-react）在 v9 的 Flat Config 下配· 置非常繁琐，需要使用 @eslint/eslintrc 进行兼容层转换。
+· 配置重写：v9 需要把 .eslintrc.js 重写为 eslint.config.js，语法完全不同（不再使用 extends 字符串，而是对象数组）。
+· 稳定性：对于企业级 Monorepo，v8.57.0 是目前的工业标准（Industry Standard），极其稳定。等 v9 生态完全成熟（插件全面适配）后再迁移是更负责任的做法。

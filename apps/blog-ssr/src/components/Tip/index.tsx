@@ -17,7 +17,7 @@ const observerOptions = {
 let ticking = false;
 
 type H2ListType = {
-    content: string, id: number | string, scrollIntoView: Function
+    content: string, id: number | string, scrollIntoView: () => void
 }[]
 
 const Tip: React.FC<{ title: string }> = ({ title }) => {

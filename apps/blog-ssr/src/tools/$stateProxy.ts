@@ -10,9 +10,9 @@ function isObject(o: any) {
 }
 
 export function createStore<T extends object>(initial: T) {
-  let subscribers = new Set<Subscriber>()
+  const subscribers = new Set<Subscriber>()
   // underlying original object (we keep it for snapshot reference)
-  let root = initial
+  const root = initial
   let proxyContainerRoot: { proxy: any } = { proxy: null };
 
   // notify all subscribers (we batch via microtask to coalesce)
@@ -34,8 +34,8 @@ export function createStore<T extends object>(initial: T) {
   }
 
   // cache of proxies to avoid rewrapping same object
-  let proxyCache = new WeakMap<object, any>()
-  let targetSubs = new TargetSubs()
+  const proxyCache = new WeakMap<object, any>()
+  const targetSubs = new TargetSubs()
 
   function makeProxy(obj: any) {
     if (!isObject(obj)) return obj
@@ -44,7 +44,7 @@ export function createStore<T extends object>(initial: T) {
 
     // 因为不能知道将自己这个特殊的Proxy类型对象传给对方
     // 所以构建一个普通对象代表自己 只要包含对方想要的信息即可
-    let targetForDeps = { _version: 0 };
+    const targetForDeps = { _version: 0 };
 
     const proxy = new Proxy(obj, {
       get(target, key, receiver) {

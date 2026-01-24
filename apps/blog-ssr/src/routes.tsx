@@ -62,7 +62,7 @@ const PodmanApp = (initialData?: { htmlString?: string }) => <Article htmlString
 // );
 
 // ADD:
-let TestInitialData: InitialDataType = {
+const TestInitialData: InitialDataType = {
   articleInfos: {
     podman: {
       code: 'podman',

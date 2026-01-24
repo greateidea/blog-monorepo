@@ -43,7 +43,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post, index }) => {
       </div>
       
       {/* Click overlay */}
-      <a href={`https://blog.hiou.top/${post.slug}`} target="_blank" className="absolute inset-0" aria-label={`Read ${post.title}`}></a>
+      <a href={`https://blog.hiou.top/${post.slug}`} rel="noreferrer" target="_blank" className="absolute inset-0" aria-label={`Read ${post.title}`}></a>
     </motion.article>
   );
 };

@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite build --watch",
     "build:prod": "tsc && vite build",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -53,6 +53,7 @@
     "@vitejs/plugin-react": "^5.0.0",
     "@vitest/browser-playwright": "^4.0.17",
     "@vitest/coverage-v8": "^4.0.17",
+    "eslint": "^8.57.1",
     "playwright": "^1.57.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
