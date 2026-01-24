@@ -157,7 +157,7 @@ const Head: React.FC<{ title: string, headerDes?: string[], code: string }> = ({
   }, [headerDes]);
 
   return <header className={style['art_head']}>
-    <AnimatedFeTurbulence id="turbulence" from={0.03} to={0.98} duration={0.28} triggerByHover={true} delay={3100}>
+    <AnimatedFeTurbulence id="turbulence" from={0.03} to={0.98} duration={0.28} triggerByHover={true} delay={4200}>
       <h1 id="title" className={`${style['head_text']} text_title_font flicker-title`}>{title}</h1>
     </AnimatedFeTurbulence>
     <div className={style.des_container}>
@@ -195,5 +195,3 @@ const Head: React.FC<{ title: string, headerDes?: string[], code: string }> = ({
 }
 
 export default Head
-
-
