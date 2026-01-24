@@ -1,5 +1,11 @@
 # @blog/blog-ssr
 
+## 0.2.4
+
+### Patch Changes
+
+- 6e0a9b3: 增加谷歌字体加载优化
+
 ## 0.2.3
 
 ### Patch Changes
