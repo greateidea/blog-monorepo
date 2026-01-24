@@ -40,13 +40,14 @@ const $state = (value: any) => {
     return todoStore
 }
 
-function useTodoStoreWrapper(value: any) {
-    return useTodoStore(createStore(value))
-}
+// function useTodoStoreWrapper(value: any) {
+//     return useTodoStore(createStore(value))
+// }
 
-const $contextState = (value: any) => useTodoStoreWrapper(value)
+// const $contextState = (value: any) => () => useTodoStoreWrapper(value)
 // const $contextState = (value: any) => () => useTodoStore(createStore(value))
 
-export const CountHook = $contextState({ value: { value: 0 } })
+// export const CountHook = $contextState({ value: { value: 0 } })
+export const CountHook = () => {}
 
 export default $state

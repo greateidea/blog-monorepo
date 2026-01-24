@@ -1,5 +1,13 @@
 # @blog/blog-ssr
 
+## 0.2.2
+
+### Patch Changes
+
+- 200b381: 新增packages下的eslint模块 新增全局eslint配置 turbo eslint配置 各应和包用接入eslint配置增加依赖
+- Updated dependencies [200b381]
+  - @blog/ui-lib@1.1.1
+
 ## 0.2.1
 
 ### Patch Changes

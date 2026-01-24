@@ -1,6 +1,6 @@
 {
   "name": "@blog/ui-lib",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "@blog/ui-lib",
   "type": "module",
   "private": true,
