@@ -570,3 +570,15 @@ module.exports = {
 · 生态滞后：很多老牌插件（如 eslint-plugin-import, eslint-plugin-react）在 v9 的 Flat Config 下配· 置非常繁琐，需要使用 @eslint/eslintrc 进行兼容层转换。
 · 配置重写：v9 需要把 .eslintrc.js 重写为 eslint.config.js，语法完全不同（不再使用 extends 字符串，而是对象数组）。
 · 稳定性：对于企业级 Monorepo，v8.57.0 是目前的工业标准（Industry Standard），极其稳定。等 v9 生态完全成熟（插件全面适配）后再迁移是更负责任的做法。
+
+
+### 增加utils包
+1. 创建packages/utils
+2. 添加package.json
+3. 添加scripts
+4. 添加依赖
+5. 添加测试
+6. 添加文档
+7. 添加示例
+
+

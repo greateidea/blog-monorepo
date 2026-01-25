@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@blog/ui-lib": "workspace:^",
+    "@blog/utils": "workspace:^",
     "@preact/signals": "^2.4.0",
     "@preact/signals-react": "^3.4.0",
     "@sentry/node": "^10.36.0",

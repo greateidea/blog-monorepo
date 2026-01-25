@@ -46,13 +46,19 @@ export default defineConfig(({ mode }) => {
           manualChunks(id: string) {
             if (id.includes('node_modules')) {
               // 把 react 和 react-dom 放到 framework（名字随意，但要能识别）
-              if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+              if (
+                id.includes('react') ||
+                id.includes('react-dom') ||
+                id.includes('react-router') ||
+                id.includes('scheduler')
+              ) {
                 return 'framework'
               } if (id.includes('sentry')) {
                 return 'tracking'
-              } else {
-                return 'vendor'
               }
+
+              // 注意⚠️不要把剩下的强行塞在一起，让 Vite 自己决定要把它们放在哪个 chunk 里
+              // return undefined; // 隐式返回 undefined，Vite 会接管
             }
           }
         }

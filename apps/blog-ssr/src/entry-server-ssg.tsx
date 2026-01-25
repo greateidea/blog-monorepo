@@ -10,6 +10,7 @@ import {
   StaticRouterProvider,
 } from "react-router"
 import { renderPreloadLink, getInitialData } from './utils-ssg'
+import { retryTagRequest, serializeScript } from '@blog/utils'
 // import themeCss from './th.css?raw'
 
 const origin = "https://api.hiou.top"
@@ -236,6 +237,15 @@ export async function render(url: string, data: any = null, opts: { manifest?: M
 
   // 2) build initial data injection
   const initialDataScript = data ? `<script>window.__INITIAL_DATA__ = ${safeJsonForHtml(data)}</script>` : ''
+  const retryTagRequestScript = `<script>
+  ${serializeScript(retryTagRequest, [
+    'https://cdn.jsdelivr.net',
+  ], {
+    yieldPaint: false,
+    includeTagNames: ['LINK'],
+    include: ['https://cdn.jsdelivr.net/npm/@callmebill/lxgw-wenkai-web@latest/lxgwwenkai-regular/result.css'],
+  })}
+  </script>`
 
   // 3) build asset tags from manifest (if provided)
   const { entryTag, scriptTags, cssTags, assetsTags, lowPriorityScriptTags } = tagsFromManifest(manifest, entryKey)
@@ -279,6 +289,7 @@ export async function render(url: string, data: any = null, opts: { manifest?: M
     <meta property="og:url" content="${headMeta.ogUrl}">
     <meta property="og:description" content="${headMeta.ogDescription}">
     <meta property="og:site_name" content="hiou blog!">
+    ${retryTagRequestScript}
     ${preFonts}
     ${googleFontResourceTags}
     ${lxgwwenkaiFontTag}
