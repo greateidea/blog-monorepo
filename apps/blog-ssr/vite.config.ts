@@ -38,7 +38,8 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/wapi/, ''),
         },
-      }
+      },
+      port: 5173,
     },
     build: {
       rollupOptions: {

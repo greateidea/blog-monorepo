@@ -37,6 +37,8 @@ logs
 lerna-debug.log*
 dist-ssr
 *.local
+.agent
+.antigravityignore
 
 # Editor directories and files
 .vscode/*
