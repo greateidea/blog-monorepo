@@ -16,8 +16,7 @@
     "build:allSSG": "npm run build:clientSSG && npm run build:serverSSG && npm run prerender",
     "build:prod": "npm run build:clientSSG && npm run build:serverSSG && npm run prerender",
     "preview": "cross-env NODE_ENV=production node server-ssg",
-    "test": "vitest",
-    "test:run": "vitest run --passWithNoTests",
+    "test": "vitest run --passWithNoTests",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives"
   },
   "dependencies": {

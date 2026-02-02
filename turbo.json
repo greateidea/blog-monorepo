@@ -17,8 +17,10 @@
     ],
     "pipeline": {
         "test": {
+            "dependsOn": ["^test"],
             "outputs": [],
-            "inputs": ["src/**", "test/**", "tsconfig.json"]
+            "inputs": ["src/**", "test/**", "tsconfig.json"],
+            "cache": true
         },
         "build:prod": {
             "dependsOn": [
@@ -48,11 +50,12 @@
         },
         "check-types": {
             // 类型检查通常需要上游包已经 Build 好了类型
-            "dependsOn": ["^build:prod"],
+            // "dependsOn": ["^build:prod"],
             "outputs": []
         },
         "lint": {
-            "outputs": []
+            "outputs": [],
+            "cache": true
         },
         "storybook": {
             "cache": false,

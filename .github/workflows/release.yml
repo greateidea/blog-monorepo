@@ -2,17 +2,24 @@ name: Release
 
 on:
   push:
-    branches:
-      - main
-      
+    branches: [ main ]
+
 permissions:
   contents: write
   pull-requests: write
+  issues: read
+  # id-token: write
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
 
+    env:
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -34,12 +41,45 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Create Release PR
+        id: changesets
         uses: changesets/action@v1
         with:
           publish: pnpm release
           # branch: release/main # 控制分支名字
         env:
-          # 这是 GitHub 给这个 workflow 的“临时机器人权限” GITHUB_TOKEN 是👉 GitHub 自动给的
-          # 每次 workflow 运行都会自动生成 只在这个 workflow 生命周期内有效
-          # changesets/action 会尝试：创建分支、创建 PR、push commit
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    needs: release
+    if: needs.release.outputs.published == 'true'
+    runs-on: ubuntu-latest
+    environment: 
+      name: production
+      url: https://blog.hiou.top 
+    env: # 【注入变量】Job 2 也要能连上 Turbo 云端
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+    steps:
+      - name: Prepare Deploy
+        run: echo "prepare to build and deploy to production..."
+
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # 必须拉取完整历史，Turbo 才能算出正确的 Hash 命中缓存
+          
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+      
+      - run: pnpm install --frozen-lockfile
+
+      - name: Restore Build from Cache
+        run: pnpm -w run build:prod # 安全全量构建
+        # run: pnpm -w run build:prod --since=origin/main # 增量构建
+
+      - name: Deploy
+        run: echo "deploy to production..."
+        # run: pnpm deploy-script
