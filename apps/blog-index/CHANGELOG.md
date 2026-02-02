@@ -1,5 +1,13 @@
 # @blog/SpringCatTech-blog
 
+## 0.4.3
+
+### Patch Changes
+
+- acc6607: 增加github action 配置
+- Updated dependencies [acc6607]
+  - @blog/ui-lib@1.1.2
+
 ## 0.4.2
 
 ### Patch Changes

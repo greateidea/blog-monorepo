@@ -1,5 +1,11 @@
 # @blog/eslint-config
 
+## 0.0.3
+
+### Patch Changes
+
+- acc6607: 增加github action 配置
+
 ## 0.0.2
 
 ### Patch Changes

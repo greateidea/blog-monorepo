@@ -1,5 +1,11 @@
 # @blog/ui-lib
 
+## 1.1.2
+
+### Patch Changes
+
+- acc6607: 增加github action 配置
+
 ## 1.1.1
 
 ### Patch Changes

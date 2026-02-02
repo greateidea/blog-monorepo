@@ -1,5 +1,15 @@
 # @blog/blog-ssr
 
+## 0.2.6
+
+### Patch Changes
+
+- acc6607: 增加github action 配置
+- 22cc662: 增加playwrite应用 增加项目浏览器自动化测试
+- Updated dependencies [acc6607]
+  - @blog/ui-lib@1.1.2
+  - @blog/utils@0.1.1
+
 ## 0.2.5
 
 ### Patch Changes
