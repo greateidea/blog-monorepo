@@ -50,6 +50,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy:
+    name: Deploy to Cloudflare Pages
     needs: release
     if: needs.release.outputs.published == 'true'
     runs-on: ubuntu-latest
@@ -76,10 +77,16 @@ jobs:
       
       - run: pnpm install --frozen-lockfile
 
-      - name: Restore Build from Cache
-        run: pnpm -w run build:prod # 安全全量构建
-        # run: pnpm -w run build:prod --since=origin/main # 增量构建
+      - name: Build Project
+        run: pnpm -w run build:changed # 增量构建
 
       - name: Deploy
         run: echo "deploy to production..."
         # run: pnpm deploy-script
+
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist/ --project-name=hiblog
