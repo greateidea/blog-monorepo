@@ -1,5 +1,11 @@
 # @blog/utils
 
+## 0.1.1
+
+### Patch Changes
+
+- acc6607: 增加github action 配置
+
 ## 0.1.0
 
 ### Minor Changes
