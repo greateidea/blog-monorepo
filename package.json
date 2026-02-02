@@ -5,6 +5,7 @@
     "description": "blog scalable monorepo",
     "scripts": {
         "build:prod": "turbo run build:prod && node scripts/collect-dist.mjs",
+        "build:changed": "turbo run build:prod --filter='...[origin/main]' && node scripts/collect-dist.mjs",
         "build:blog": "turbo run build:prod --filter @blog/blog-ssr",
         "build:index": "turbo run build:prod --filter @blog/SpringCatTech-blog",
         "build:uilib": "turbo run build:prod --filter @blog/ui-lib",

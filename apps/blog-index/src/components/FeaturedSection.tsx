@@ -36,7 +36,7 @@ export const FeaturedSection: React.FC = () => {
             onClick={handleLoadMore}
             className="group flex flex-col items-center gap-2 text-xs font-medium text-zinc-500 hover:text-zinc-200 transition-colors uppercase tracking-[0.2em] bg-transparent border-none cursor-pointer"
           >
-            <span>Load More</span>
+            <span>「Load More」</span>
             <ArrowDown size={14} className="opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300" />
           </button>
         </div>
