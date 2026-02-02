@@ -12,8 +12,13 @@ build
 
 # 3. 环境变量
 .env
+.env.*
 .env.local
 .env.*.local
+.env.development
+.env.production
+.env.test
+.env.staging
 
 # 4. IDE 配置
 .vscode

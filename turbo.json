@@ -18,16 +18,12 @@
     "pipeline": {
         "test": {
             "outputs": [],
-            "inputs": [
-                "src/**/*.tsx",
-                "src/**/*.ts",
-                "test/**/*.ts"
-            ]
+            "inputs": ["src/**", "test/**", "tsconfig.json"]
         },
         "build:prod": {
             "dependsOn": [
                 "^build:prod",
-                "lint"
+                // "lint"
             ],
             "outputs": [
                 "dist/**",
@@ -42,13 +38,17 @@
                 "client/**",
                 ".next/**",
                 "build/**"
-            ]
+            ],
+            "cache": false,
+            "persistent": true
         },
         "dev": {
             "cache": false,
             "persistent": true
         },
         "check-types": {
+            // 类型检查通常需要上游包已经 Build 好了类型
+            "dependsOn": ["^build:prod"],
             "outputs": []
         },
         "lint": {
@@ -63,7 +63,7 @@
                 "storybook-static/**"
             ],
             "dependsOn": [
-                "^build"
+                "^build:prod"
             ]
         }
     }

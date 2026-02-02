@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      # 执行环境 pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      # 执行环境 node
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      # 执行环境 dependencies
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Create Release PR
+        uses: changesets/action@v1
+        with:
+          publish: pnpm release
+          # branch: release/main # 控制分支名字
+        env:
+          # 这是 GitHub 给这个 workflow 的“临时机器人权限” GITHUB_TOKEN 是👉 GitHub 自动给的
+          # 每次 workflow 运行都会自动生成 只在这个 workflow 生命周期内有效
+          # changesets/action 会尝试：创建分支、创建 PR、push commit
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

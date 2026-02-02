@@ -1,0 +1,67 @@
+# · 它在 PR 和 push 到 main 时跑；
+# · 用 fetch-depth: 0；
+# · 安装 pnpm、使用 setup-node 的 pnpm 缓存；
+# · 演示如何传入 TURBO_TOKEN（如果你启用 Turborepo remote cache）；
+# · 用 turbo run ... --since=origin/main 做增量（在 PR 场景非常有用）。
+# 根据你仓库细节（node 版本、turbo 命令、产物目录），我可以把它进一步调优。
+
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0   # 重要：保留 git 历史，供 `--since` 使用
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      - name: Setup Node (with pnpm cache)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+          pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm -w run build:prod --since=origin/main
+
+      - name: Test
+        run: pnpm -w run test --since=origin/main
+        # run: pnpm -w turbo run test --since=origin/main
+
+      - name: Lint & Typecheck
+        run: pnpm -w run lint && pnpm -w turbo run check-types
+        # run: pnpm -w turbo run lint && pnpm -w turbo run check-types
+
+      - name: Upload artifacts (optional)
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: dist # 上传的文件/目录路径
