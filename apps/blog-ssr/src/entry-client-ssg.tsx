@@ -10,7 +10,7 @@ import * as Sentry from "@sentry/react";
 
 if (import.meta.env.PROD) {
   Sentry.init({
-    dsn: import.meta.env.VITE_SENTRY_DSN,
+    dsn: import.meta.env.VITE_SENTRY_DSN || 'https://ae59a11b7803144dc5cbdf35f8360df3@o4510759028129792.ingest.us.sentry.io/4510759033372672',
     integrations: [
       Sentry.reactRouterV6BrowserTracingIntegration({
         useEffect,

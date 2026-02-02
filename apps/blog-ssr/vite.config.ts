@@ -16,8 +16,8 @@ export default defineConfig(({ mode }) => {
       // 【核心】只在生产构建时运行 Sentry 上传
       // @ts-expect-error - Vite version mismatch in monorepo causing type issues
       mode === 'production' && sentryVitePlugin({
-        org: env.ORG_SLUG, // Sentry 组织名
-        project: env.PROJECT_SLUG, // Sentry 项目名
+        org: env.ORG_SLUG || 'cybernetic-nerve', // Sentry 组织名
+        project: env.PROJECT_SLUG || 'cybernetic-nerve-blog-react', // Sentry 项目名
         telemetry: false,
         authToken: env.SENTRY_AUTH_TOKEN,
         // 【关键】Release 版本必须和 main.tsx 里的一致！

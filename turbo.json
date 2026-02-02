@@ -22,7 +22,7 @@
         },
         "build:prod": {
             "dependsOn": [
-                "^build:prod",
+                "^build:prod"
                 // "lint"
             ],
             "outputs": [
