@@ -21,7 +21,8 @@
         "clean": "rm -rf node_modules **/*/node_modules",
         "changeset": "changeset",
         "version-packages": "changeset version",
-        "release": "turbo run build:prod --filter=...[HEAD^1] && node scripts/collect-dist.mjs && changeset publish",
+        "release": "changeset publish",
+        "release:local": "turbo run build:prod --filter=...[HEAD^1] && node scripts/collect-dist.mjs && changeset publish",
         "test": "turbo run test --filter=...[HEAD^1]",
         "test:changed": "turbo run test --filter='...[origin/main]'"
     },
