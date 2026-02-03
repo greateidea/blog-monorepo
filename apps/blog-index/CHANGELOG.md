@@ -1,5 +1,11 @@
 # @blog/SpringCatTech-blog
 
+## 0.4.4
+
+### Patch Changes
+
+- bdd213b: readme
+
 ## 0.4.3
 
 ### Patch Changes
