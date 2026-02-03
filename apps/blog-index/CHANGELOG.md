@@ -1,5 +1,11 @@
 # @blog/SpringCatTech-blog
 
+## 0.4.5
+
+### Patch Changes
+
+- 73db1da: readme blog
+
 ## 0.4.4
 
 ### Patch Changes
