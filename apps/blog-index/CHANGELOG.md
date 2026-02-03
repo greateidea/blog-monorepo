@@ -1,5 +1,11 @@
 # @blog/SpringCatTech-blog
 
+## 0.4.6
+
+### Patch Changes
+
+- 4bd90b3: build & publish
+
 ## 0.4.5
 
 ### Patch Changes
