@@ -49,10 +49,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: show published
+        run: echo "JOB OUTPUT published = '${{ steps.changesets.outputs.published }}'"
+
   deploy:
     name: Deploy to Cloudflare Pages
     needs: release
-    if: needs.release.outputs.published == 'true'
+    if: ${{ needs.release.outputs.published == 'true' }}
     runs-on: ubuntu-latest
     environment: 
       name: production
@@ -62,6 +65,9 @@ jobs:
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
     steps:
+      - name: show published
+        run: echo "JOB OUTPUT published = '${{ needs.release.outputs.published }}'"
+
       - name: Prepare Deploy
         run: echo "prepare to build and deploy to production..."
 
