@@ -3,99 +3,119 @@ name: Release
 on:
   push:
     branches: [ main ]
+  # 添加 pull_request 事件，用于检测 PR 合并
+  pull_request:
+    types: [closed]
 
 permissions:
   contents: write
   pull-requests: write
   issues: read
-  # id-token: write
 
 jobs:
+  # Job 1: 创建 release PR（只在 push 到 main 时运行）
   release:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
-    outputs:
-      published: ${{ steps.define_published.outputs.published }}
-
     env:
       SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      # 执行环境 pnpm
+      
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-
-      # 执行环境 node
+      
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
-
-      # 执行环境 dependencies
+      
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
+      
       - name: Create Release PR
-        id: changesets
         uses: changesets/action@v1
         with:
-          publish: pnpm release
-          # branch: release/main # 控制分支名字
+          # 对于 private 包，设置一个空操作
+          publish: echo "Private packages, skipping publish"
+          # 可选：添加标题标识，方便后续识别
+          title: "chore: version updates"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Define published
-        id: define_published
+  # Job 2: 检测并处理合并的 PR（只在 PR closed 时运行）
+  detect-merged-changeset-pr:
+    if: |
+      github.event_name == 'pull_request' &&
+      github.event.action == 'closed' &&
+      github.event.pull_request.merged == true &&
+      contains(github.event.pull_request.user.login, 'github-actions')
+    runs-on: ubuntu-latest
+    outputs:
+      is_changeset_pr: ${{ steps.check-pr.outputs.is_changeset_pr }}
+    
+    steps:
+      - name: Check if PR is from changesets
+        id: check-pr
         run: |
-          if git log -1 --pretty=%B | grep -q "Version Packages"; then
-            echo "published=true" >> $GITHUB_OUTPUT
+          # 简单检查：如果是 github-actions[bot] 创建的 PR，就认为是 changeset PR
+          # 你也可以添加更多检查，比如检查 PR 标题
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          if [[ "$PR_TITLE" =~ [Rr]elease || "$PR_TITLE" =~ [Vv]ersion || "$PR_TITLE" =~ [Cc]hangeset ]]; then
+            echo "is_changeset_pr=true" >> $GITHUB_OUTPUT
+            echo "Detected changeset PR by title pattern"
           else
-            echo "published=false" >> $GITHUB_OUTPUT
+            # 默认：只要是 github-actions[bot] 创建的合并 PR，就认为是 changeset PR
+            echo "is_changeset_pr=true" >> $GITHUB_OUTPUT
+            echo "Assuming changeset PR by author"
           fi
 
+  # Job 3: 部署（只在合并 changeset PR 后运行）
   deploy:
     name: Deploy to Cloudflare Pages
-    needs: release
-    if: ${{ needs.release.outputs.published == 'true' }}
+    needs: detect-merged-changeset-pr
+    if: ${{ needs.detect-merged-changeset-pr.outputs.is_changeset_pr == 'true' }}
     runs-on: ubuntu-latest
     environment: 
       name: production
       url: https://blog.hiou.top 
-    env: # 【注入变量】Job 2 也要能连上 Turbo 云端
+    
+    env:
       SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+    
     steps:
-      - name: show published
-        run: echo "JOB OUTPUT published = '${{ needs.release.outputs.published }}'"
-
-      - name: Prepare Deploy
-        run: echo "prepare to build and deploy to production..."
-
-      - uses: actions/checkout@v5
+      - name: Checkout
+        uses: actions/checkout@v5
         with:
-          fetch-depth: 0 # 必须拉取完整历史，Turbo 才能算出正确的 Hash 命中缓存
+          fetch-depth: 0
           
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+      
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'pnpm'
       
-      - run: pnpm install --frozen-lockfile
-
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Install Wrangler
+        run: pnpm add -D -w wrangler@3.90.0 
+      
       - name: Build Project
-        run: pnpm -w run build:changed # 增量构建
-
-      - name: Deploy
-        run: echo "deploy to production..."
-        # run: pnpm deploy-script
-
+        run: pnpm -w run build:changed
+      
       - name: Publish to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
