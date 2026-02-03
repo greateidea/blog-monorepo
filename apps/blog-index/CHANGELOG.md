@@ -1,5 +1,11 @@
 # @blog/SpringCatTech-blog
 
+## 0.4.7
+
+### Patch Changes
+
+- 06df8af: 构建发布至cloudflare
+
 ## 0.4.6
 
 ### Patch Changes
