@@ -254,24 +254,25 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist/ --project-name=hiblog
 
-      - name: Extract Changelog for Release
+      - name: Extract Monorepo Changelog for Release
         id: extract_changelog
         env:
           TARGET_VERSION: ${{ steps.generate_version.outputs.version }}
         run: |
-          # 运行 Node.js 脚本，并将结果保存到一个临时文件中
-          node .github/scripts/extract-changelog.js "$TARGET_VERSION" > /tmp/release_notes.md
-          # 将文件内容存储为步骤输出，供后续步骤使用
-          echo "notes<<EOF" >> $GITHUB_OUTPUT
-          cat /tmp/release_notes.md >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          # 运行新的 Monorepo 版脚本
+          NOTES=$(node .github/scripts/extract-monorepo-changelog.js "$TARGET_VERSION")
+          # 使用唯一分隔符安全地设置输出
+          DELIMITER=$(openssl rand -hex 16)
+          echo "notes<<${DELIMITER}" >> $GITHUB_OUTPUT
+          echo "$NOTES" >> $GITHUB_OUTPUT
+          echo "${DELIMITER}" >> $GITHUB_OUTPUT
+          echo "Release Notes 已准备。"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.generate_version.outputs.version }}
           name: Release ${{ steps.generate_version.outputs.version }}
-          # 关键：使用上一步提取的日志作为 body
           body: ${{ steps.extract_changelog.outputs.notes }}
           draft: false
           prerelease: false
