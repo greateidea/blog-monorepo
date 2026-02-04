@@ -1,5 +1,11 @@
 # @blog/SpringCatTech-blog
 
+## 0.4.11
+
+### Patch Changes
+
+- ef3bd49: 提取当前变更
+
 ## 0.4.10
 
 ### Patch Changes
