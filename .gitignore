@@ -53,6 +53,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+zhishi/
 zhishi.*
 
 *storybook.log

@@ -47,6 +47,8 @@ jobs:
       #   run: pnpm -w run build:prod --since=origin/main
 
       - name: Test
+        # 排除 changeset PR
+        if: ${{ !contains(github.event.pull_request.user.login, 'github-actions') }}
         run: pnpm -w run test:changed
         # run: pnpm -w turbo run test --since=origin/main
 

@@ -7,6 +7,40 @@ on:
   pull_request:
     types: [closed]
 
+      # 2. 手动触发：随时手动部署
+  workflow_dispatch:
+    inputs:
+      target_env:
+        description: '部署环境'
+        type: choice
+        options: [staging, production]
+        default: staging
+      
+      source_type:
+        description: '代码来源类型'
+        type: choice
+        options:
+          - branch:main     # 主分支最新
+          - branch:release  # 最新发布分支
+          - tag             # 特定版本标签
+        default: 'branch:main'
+      
+      specific_ref:
+        description: '具体引用（选tag时必须填写）'
+        required: false
+        type: string
+        default: ''
+
+      # 关键：检查级别选择
+      validation_level:
+        description: '质量检查级别'
+        type: choice
+        options:
+          - full     # 完整检查（lint + test + build）
+          - fast     # 快速检查（仅 build + 基本验证）
+          - skip     # 跳过检查（仅紧急情况使用）
+        default: 'full'
+
 permissions:
   contents: write
   pull-requests: write
@@ -66,7 +100,7 @@ jobs:
         id: check-pr
         run: |
           # 简单检查：如果是 github-actions[bot] 创建的 PR，就认为是 changeset PR
-          # 你也可以添加更多检查，比如检查 PR 标题
+          # 可以添加更多检查，比如检查 PR 标题
           PR_TITLE="${{ github.event.pull_request.title }}"
           if [[ "$PR_TITLE" =~ [Rr]elease || "$PR_TITLE" =~ [Vv]ersion || "$PR_TITLE" =~ [Cc]hangeset ]]; then
             echo "is_changeset_pr=true" >> $GITHUB_OUTPUT
@@ -77,14 +111,14 @@ jobs:
             echo "Assuming changeset PR by author"
           fi
 
-  # Job 3: 部署（只在合并 changeset PR 后运行）
+  # Job 3: 部署（只在合并 changeset PR 后运行） || 手动触发
   deploy:
     name: Deploy to Cloudflare Pages
     needs: detect-merged-changeset-pr
-    if: ${{ needs.detect-merged-changeset-pr.outputs.is_changeset_pr == 'true' }}
+    if: ${{ needs.detect-merged-changeset-pr.outputs.is_changeset_pr == 'true' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     environment: 
-      name: production
+      name: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.target_env || 'production' }}
       url: https://blog.hiou.top 
     
     env:
@@ -93,9 +127,44 @@ jobs:
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
     
     steps:
+      - name: Determine checkout reference
+        id: determine-ref
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # 手动触发：根据用户选择确定ref
+            case "${{ github.event.inputs.source_type }}" in
+              "branch:main")
+                echo "ref=main" >> $GITHUB_OUTPUT
+                ;;
+              "branch:release")
+                # 查找最新的 release/* 分支
+                LATEST_RELEASE=$(git ls-remote --heads origin "release/*" | tail -1 | cut -f2)
+                if [ -z "$LATEST_RELEASE" ]; then
+                  echo "找不到 release 分支，使用 main"
+                  echo "ref=main" >> $GITHUB_OUTPUT
+                else
+                  echo "ref=${LATEST_RELEASE#refs/heads/}" >> $GITHUB_OUTPUT
+                fi
+                ;;
+              "tag")
+                # 使用用户指定的标签
+                if [ -n "${{ github.event.inputs.specific_ref }}" ]; then
+                  echo "ref=${{ github.event.inputs.specific_ref }}" >> $GITHUB_OUTPUT
+                else
+                  echo "请指定标签名称！"
+                  exit 1
+                fi
+                ;;
+            esac
+          else
+            # 自动触发：使用当前触发推送的分支（main）
+            echo "ref=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Checkout
         uses: actions/checkout@v5
         with:
+          ref: ${{ steps.determine-ref.outputs.ref }}
           fetch-depth: 0
           
       - name: Setup pnpm
@@ -112,9 +181,69 @@ jobs:
       
       - name: Install Wrangler
         run: pnpm add -D -w wrangler@3.90.0 
+
+      # 条件执行：Lint 检查
+      - name: Run Lint
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.validation_level != 'skip' }}
+        run: pnpm -w run lint
+
+      # 条件执行：测试（根据级别决定详细程度）
+      - name: Run Tests
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.validation_level != 'skip' }}
+        run: |
+          if [ "${{ github.event.inputs.validation_level }}" = "full" ]; then
+            echo "🔍 运行完整测试套件"
+            pnpm -w run test:changed
+          else
+            echo "⚡ 运行快速冒烟测试..."
+          fi
+
+      # 条件执行：类型检查
+      - name: Type Check
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.validation_level == 'full' }}
+        run: pnpm -w turbo run check-types
       
+      - name: Generate Auto Version Tag
+        id: generate_version
+        run: |
+          # 获取当前年份和周数
+          YEAR_WEEK=$(date -u +%G.%V)
+          # 获取本周内的提交次数，作为序列号
+          COMMIT_COUNT=$(git log --oneline --since="$(date -ud 'monday' +%Y-%m-%d)" | wc -l)
+          # 获取当前提交的短哈希
+          COMMIT_SHA_SHORT=$(git rev-parse --short HEAD)
+          # 组合成最终的版本号，格式如 2024.18.5+abc1234
+          AUTO_VERSION="$YEAR_WEEK.${COMMIT_COUNT}+${COMMIT_SHA_SHORT}"
+          echo "Generated version: $AUTO_VERSION"
+          echo "version=$AUTO_VERSION" >> $GITHUB_OUTPUT
+          echo "VERSION=$AUTO_VERSION" >> $GITHUB_ENV
+
+      - name: Create and Push Release Branch (Optional Pointer)
+        run: |
+          RELEASE_BRANCH="release/${{ steps.generate_version.outputs.version }}"
+          echo "Creating and pushing release branch pointer: $RELEASE_BRANCH"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$RELEASE_BRANCH"
+          git push origin "$RELEASE_BRANCH"
+          echo "✅ Release branch (mutable pointer) created: $RELEASE_BRANCH"
+
+      - name: Create and Push Git Tag (Immutable Pointer)
+        run: |
+          TAG_NAME="${{ steps.generate_version.outputs.version }}"
+          echo "Creating and pushing immutable tag pointer: $TAG_NAME"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # 创建附注标签（Annotated Tag），这是“只读指针”的技术实现
+          git tag -a "$TAG_NAME" -m "Release $TAG_NAME"
+          git push origin "$TAG_NAME"
+          echo "✅ Git tag (immutable pointer) created and pushed: $TAG_NAME"
+          
       - name: Build Project
-        run: pnpm -w run build:changed
+        run: |
+          echo "🔧 代码来源: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.target_env || 'production' }}"
+          echo "🚀 目标环境: ${{ env }}"
+          pnpm -w run build:changed
       
       - name: Publish to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
