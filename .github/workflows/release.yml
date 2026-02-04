@@ -14,7 +14,7 @@ on:
         description: '部署环境'
         type: choice
         options: [staging, production]
-        default: staging
+        default: production
       
       source_type:
         description: '代码来源类型'
@@ -227,6 +227,8 @@ jobs:
           git checkout -b "$RELEASE_BRANCH"
           git push origin "$RELEASE_BRANCH"
           echo "✅ Release branch (mutable pointer) created: $RELEASE_BRANCH"
+          git checkout ${{ steps.determine-ref.outputs.ref }}
+          echo "✅ back to ${{ steps.determine-ref.outputs.ref }}"
 
       - name: Create and Push Git Tag (Immutable Pointer)
         run: |
@@ -238,11 +240,11 @@ jobs:
           git tag -a "$TAG_NAME" -m "Release $TAG_NAME"
           git push origin "$TAG_NAME"
           echo "✅ Git tag (immutable pointer) created and pushed: $TAG_NAME"
-          
+
       - name: Build Project
         run: |
-          echo "🔧 代码来源: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.target_env || 'production' }}"
-          echo "🚀 目标环境: ${{ env }}"
+          echo "🔧 代码来源: ${{ steps.determine-ref.outputs.ref }}"
+          echo "🚀 目标环境: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.target_env || 'production' }}"
           pnpm -w run build:changed
       
       - name: Publish to Cloudflare Pages
@@ -251,3 +253,27 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist/ --project-name=hiblog
+
+      - name: Extract Changelog for Release
+        id: extract_changelog
+        env:
+          TARGET_VERSION: ${{ steps.generate_version.outputs.version }}
+        run: |
+          # 运行 Node.js 脚本，并将结果保存到一个临时文件中
+          node .github/scripts/extract-changelog.js "$TARGET_VERSION" > /tmp/release_notes.md
+          # 将文件内容存储为步骤输出，供后续步骤使用
+          echo "notes<<EOF" >> $GITHUB_OUTPUT
+          cat /tmp/release_notes.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.generate_version.outputs.version }}
+          name: Release ${{ steps.generate_version.outputs.version }}
+          # 关键：使用上一步提取的日志作为 body
+          body: ${{ steps.extract_changelog.outputs.notes }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
