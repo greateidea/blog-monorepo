@@ -7,7 +7,7 @@ export const AboutSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
           
           <div className="md:col-span-7">
-            <h2 className="text-sm font-mono text-zinc-500 mb-8 uppercase tracking-widest">About</h2>
+            <h2 className="text-sm font-mono text-zinc-500 mb-8 uppercase tracking-widest">「About」</h2>
             <p className="text-2xl md:text-3xl text-zinc-300 leading-relaxed font-light">
               Hi I'm <span className="text-zinc-100">SpringCat</span>, and this is my blog. In here, you'll find all the articles I wished I had when I was learning about web development.
             </p>
