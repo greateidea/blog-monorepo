@@ -1,5 +1,11 @@
 # @blog/SpringCatTech-blog
 
+## 0.4.9
+
+### Patch Changes
+
+- 9612dd2: 支持 GitHub Release + 自动读取changelog
+
 ## 0.4.8
 
 ### Patch Changes
