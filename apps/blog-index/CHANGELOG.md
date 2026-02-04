@@ -1,5 +1,11 @@
 # @blog/SpringCatTech-blog
 
+## 0.4.10
+
+### Patch Changes
+
+- 22b3064: 支持合并子应用changsetmd
+
 ## 0.4.9
 
 ### Patch Changes
