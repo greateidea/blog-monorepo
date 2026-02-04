@@ -1,5 +1,11 @@
 # @blog/SpringCatTech-blog
 
+## 0.4.12
+
+### Patch Changes
+
+- 4a4793f: 根据tag历史对比提取修改信息
+
 ## 0.4.11
 
 ### Patch Changes
