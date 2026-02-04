@@ -109,15 +109,10 @@ async function main() {
     }
 
     const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
-    console.log(`工作区目录: ${workspace}`);
-    console.log(`本次发布版本: ${currentReleaseTag}\n`);
 
     // 1. 获取上一次发布的Tag作为对比基准
     const previousReleaseTag = getPreviousReleaseTag();
     const comparisonBase = previousReleaseTag || 'HEAD~1'; // 如果无历史Tag，则与上一次提交对比（有一定风险）
-
-    console.log(`🔍 对比基准: ${comparisonBase || '(空，视为首次发布)'}`);
-    console.log(`🔍 对比目标: HEAD (当前最新提交)\n`);
 
     try {
         // 2. 找到所有包的 CHANGELOG.md 文件
@@ -141,7 +136,6 @@ async function main() {
             } catch { /* 目录不存在，忽略 */ }
         }
 
-        console.log(`扫描到 ${allPackages.length} 个候选包。`);
 
         // 3. 遍历每个包，精确计算其 CHANGELOG.md 的差异
         const updatedPackagesDetails = [];
@@ -184,12 +178,7 @@ async function main() {
                 version: packageVersion,
                 changesBySection
             });
-
-            console.log(`✅ ${pkg.relativePath} 检测到 ${addedChanges.length} 条新增变更。`);
         }
-
-        console.log('\n========== 精确提取报告 ==========');
-        console.log(`✅ 检测到有实质更新的包: ${updatedPackagesDetails.length} 个`);
 
         // 4. 生成最终汇总的 Release Notes
         let finalReleaseNotes = `# Release ${currentReleaseTag}\n\n`;
@@ -200,8 +189,7 @@ async function main() {
         }
 
         if (updatedPackagesDetails.length === 0) {
-            finalReleaseNotes += `未检测到任何包有新增的变更日志条目。本次发布可能仅包含配置、文档或依赖更新。`;
-            console.log('⚠️  未检测到任何包有新增变更日志条目。');
+            finalReleaseNotes += `本次发布可能仅包含配置、文档或依赖更新。`;
         } else {
             finalReleaseNotes += `本次发布包含 **${updatedPackagesDetails.length}** 个包的更新：\n\n`;
             for (const pkg of updatedPackagesDetails) {
@@ -218,9 +206,7 @@ async function main() {
                     finalReleaseNotes += '\n';
                 }
             }
-            console.log(`✅ 已精确汇总 ${updatedPackagesDetails.length} 个包的新增变更。`);
         }
-        console.log('==================================\n');
 
         // 5. 输出最终内容
         process.stdout.write(finalReleaseNotes);
