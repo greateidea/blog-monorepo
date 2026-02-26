@@ -1,5 +1,11 @@
 # @blog/blog-ssr
 
+## 0.3.0
+
+### Minor Changes
+
+- e66f311: 微前端集成AI RAG对话框项目
+
 ## 0.2.6
 
 ### Patch Changes
